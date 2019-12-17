@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
 //import 'package:flutter_linkify/flutter_linkify.dart';// for later use with video links
-import '../strings/string_getter.dart';
+import 'package:thirsk_outer_space/strings/string_getter.dart';
 //import 'package:sprintf/sprintf.dart';
 import 'package:intl/intl.dart';
 //imported packages etc.
@@ -30,29 +30,33 @@ class OneDayMenu {
   String starch;
   @JsonKey(name:'starch1Cost')
   String starchCost;
+  @JsonKey(name:'starch1Title')
+  String starchLabel;
   @JsonKey(name:'starch2')
   String veggie;
   @JsonKey(name:'starch2Cost')
   String veggieCost;
+  @JsonKey(name:'starch2Title')
+  String veggieLabel;
   String dessert;
   String dessertCost;
   String menuDate;
   OneDayMenu({this.menuID,this.soup,this.soupCost,this.entree,this.entreeCost,this.starch,this.starchCost,this.veggie,this.veggieCost,this.dessert,this.dessertCost,this.menuDate});
 
 
-  /// A necessary factory constructor for creating a new User instance
-  /// from a map. Pass the map to the generated `_$UserFromJson` constructor.
+  /// A necessary factory constructor for creating a new [OneDayMenu] instance
+  /// from a map. Pass the map to the generated [_$OneDayMenuFromJson] constructor.
   /// The constructor is named after the source class, in this case User.
   factory OneDayMenu.fromJson(Map<String, dynamic> json) => _$OneDayMenuFromJson(json);
-  ///Construct a OneDayMenu object directly from json string
+  ///Construct a [OneDayMenu] object directly from json string
   factory OneDayMenu.directFromJson(String jsonVal){
     Map tempMap = json.decode(jsonVal);
     return OneDayMenu.fromJson(tempMap);
   }
 
-  /// `toJson` is the convention for a class to declare support for serialization
+  /// [toJson] is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
-  /// helper method `_$UserToJson`.
+  /// helper method [_$OneDayMenuToJson].
   Map<String, dynamic> toJson() => _$OneDayMenuToJson(this);
 }
 ///A class that stores a list of menus, usually a week
@@ -125,9 +129,8 @@ List<Widget> displayData(WeekMenu displayMenu){
       }
     }
     addOneEntry(getString('lunch/entry/entree'),dayEntry.entree,dayEntry.entreeCost);
-    //TODO:Make custom labels for custom items
-    addOneEntry("Veggie",dayEntry.veggie,dayEntry.veggieCost);
-    addOneEntry("Starch",dayEntry.starch,dayEntry.starchCost);
+    addOneEntry(dayEntry.starchLabel,dayEntry.starch,dayEntry.starchCost);
+    addOneEntry(dayEntry.veggieLabel,dayEntry.veggie,dayEntry.veggieCost);
     addOneEntry(getString('lunch/entry/soup'),dayEntry.soup,dayEntry.soupCost);
     addOneEntry(getString('lunch/entry/dessert'),dayEntry.dessert,dayEntry.dessertCost);
     if(oneEntryDisplay.length == 2){
