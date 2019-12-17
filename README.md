@@ -27,3 +27,5 @@ The following is a list of functions that are currently being worked on:
 If you are a developer, click [here](DEVELOPER.md).
 
 The changelog of this app can be found [here](CHANGELOG.md).
+
+If you have any questions, you can email the Lead Designer at <rogerc6@educbe.ca>, or Mr.Blenkhorne at <sablenkhorne@cbe.ab.ca>.

@@ -368,7 +368,6 @@ class SchoolDayInformation{
   }
   @override
   String toString() {
-    // TODO: implement toString
     return title + " (" + duration.toString() + ")";
   }
 }
@@ -641,7 +640,6 @@ class _DateDisplayState extends State<DateDisplay>{
 //    int timeOfDayToInt(int hour,int minute) => hour * 60 + minute;
 //    int datetimeToInt(DateTime time) => timeOfDayToInt(time.hour, time.minute);
     if(todaysInfo.schoolDayType == SchoolDayType.schoolDay){
-      //TODO: Add display logic for the different periods.
       var todaysSchedule = schoolCalendar.getSchedule(currentDate);
       currentPeriod = todaysSchedule.getPeriodTextDateTime(currentDate);
       //var scheduleIndex
@@ -680,7 +678,6 @@ class _DateDisplayState extends State<DateDisplay>{
       children: <Widget>[
         Text(
           new DateFormat("| EEEE | MMM d | yyyy |").format(currentDate,),
-          //TODO: Add a button here somewhere that leads to a calendar screen.
           style: new TextStyle(
               fontSize: 16,
               color: Colors.white,
@@ -689,6 +686,7 @@ class _DateDisplayState extends State<DateDisplay>{
           ),
           textAlign: TextAlign.center,
         ),
+        //TODO: Make the button cooler
         RawMaterialButton(
           child: Text(getString('calendar/view_detail'), style: TextStyle(color: Colors.white, fontSize: 18,),),
           shape: StadiumBorder(),

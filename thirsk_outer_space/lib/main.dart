@@ -33,7 +33,7 @@ const qappURL = 'https://questaplus.alberta.ca/PracticeMain.html#';
 // and add new ones when needed with little programing knowledge
 
 ///Don't steal my api key
-const String APP_API_KEY = "AIzaSyCE5gLyCtDW6dzAkPBowBdeXqAy5iw7ebY";
+//const String APP_API_KEY = "AIzaSyCE5gLyCtDW6dzAkPBowBdeXqAy5iw7ebY";
 
 
 void main() => runApp(MyApp());

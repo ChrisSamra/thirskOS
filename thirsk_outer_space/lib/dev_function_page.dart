@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 //import 'package:markdown/markdown.dart';//Use for supporting markdown texts
 //import 'package:flutter_html/flutter_html.dart';
 import 'strings/string_getter.dart';
-import 'dart:io';
+//import 'dart:io';
 
 class MarkdownTest extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Material(
       color: Color(0xff424242),
       child: Column(

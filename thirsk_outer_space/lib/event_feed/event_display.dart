@@ -179,7 +179,6 @@ class OneEventPostDetail extends StatelessWidget{
   OneEventPostDetail({Key key, @required this.postData}) : super(key:key);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Material(
         color: Colors.grey[800],
         child: Container(
