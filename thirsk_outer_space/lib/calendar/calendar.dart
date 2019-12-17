@@ -229,8 +229,13 @@ class SchoolDaySchedule{
     }
     return scheduleLength;
   }
-
-  String getCurrentPeriodText(int periodIndex, DateTime now){
+  /// Gets what text should be displayed based on [now] as the current time and [periodIndex] calculated
+  /// in [getCurrentPeriod].
+  /// 
+  /// [now] is used to determine whether to use an alternative schedule title or not.
+  /// 
+  /// This function should only be used privately because the user can use [getCurrentPeriodText] instead
+  String _getCurrentPeriodText(int periodIndex, DateTime now){
 
     var useAlternativeTitle = (alternativeCondition ?? defaultAlternativeCondition)(now);
     var currentTime = TimeOfDay.fromDateTime(now);
@@ -249,9 +254,19 @@ class SchoolDaySchedule{
     }
     throw ArgumentError("periodIndex must be between -scheduleLength and scheduleLength");
   }
-  
-  String getPeriodTextDateTime(DateTime now){
-    return getCurrentPeriodText(getCurrentPeriod(TimeOfDay.fromDateTime(now)), now);
+  /// Display the current period text based on [now].
+  /// 
+  /// Example if this code is run on the default schedule:
+  /// ```
+  /// print(getCurrentPeriodText(DateTime.parse("2019-12-16 08:45:00")));
+  /// // Output "Period 1 ends in 60 minute(s)"
+  /// print(getCurrentPeriodText(DateTime.parse("2019-12-17 08:15:00")));
+  /// // Output "Period 2 begins in 15 minute(s)" because schedule alternates on an even day.
+  /// print(getCurrentPeriodText(DateTime.parse("2019-12-18 15:10:00")));
+  /// // Output "School is over"
+  /// ```
+  String getCurrentPeriodText(DateTime now){
+    return _getCurrentPeriodText(getCurrentPeriod(TimeOfDay.fromDateTime(now)), now);
   }
 }
 /// A static class for a list of preset schedules.
@@ -641,7 +656,7 @@ class _DateDisplayState extends State<DateDisplay>{
 //    int datetimeToInt(DateTime time) => timeOfDayToInt(time.hour, time.minute);
     if(todaysInfo.schoolDayType == SchoolDayType.schoolDay){
       var todaysSchedule = schoolCalendar.getSchedule(currentDate);
-      currentPeriod = todaysSchedule.getPeriodTextDateTime(currentDate);
+      currentPeriod = todaysSchedule.getCurrentPeriodText(currentDate);
       //var scheduleIndex
 //      var periods = [[0,2,1,4,3],[0,1,2,3,4]];
 //      bool finished = false;
