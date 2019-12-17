@@ -8,8 +8,8 @@ ThirskOS is currently in closed alpha, which means there are still lots of featu
 
 The following is a list of functions already implemented in the app, and is fully functional:
 
-* Lunch menu of this week is displayed on the front page
-* Catalog for many useful resources under the "Thrive" page
+* Lunch menu of this week is displayed on the front page.
+* Catalog for many useful resources under the "Thrive" page.
 
 The following is a list of functions already implemented, but is not currently being used:
 
@@ -19,7 +19,11 @@ The following is a list of functions already implemented, but is not currently b
 
 The following is a list of functions that are currently being worked on:
 
-* Front page displaying the current period and whether there is school today or not
+* Front page displaying the current period and whether there is school today or not.
+* A calendar system that gives information on the various holidays and events.
 
 ## Other Links
+
 If you are a developer, click [here](DEVELOPER.md).
+
+The changelog of this app can be found [here](CHANGELOG.md).
