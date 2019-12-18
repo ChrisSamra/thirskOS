@@ -98,18 +98,7 @@ class DiplomaPage extends StatelessWidget{   //Built in page for Exam Resources
 
         ),
 
-        new RawMaterialButton(
-          child: Text(getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-          shape: StadiumBorder(),
-          highlightColor: Color(0x0083ff),
-          padding: EdgeInsets.all(5),
-          fillColor: Colors.black12,
-          splashColor: Colors.white,
-
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        new PreviousPageButton(),
 
         new Container(
           height: 20.0,
@@ -190,17 +179,7 @@ class CtsPage extends StatelessWidget{
 
         ),
 
-        new RawMaterialButton(
-          child: Text(getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-          shape: StadiumBorder(),
-          highlightColor: Color(0x0083ff),
-          padding: EdgeInsets.all(5),
-          fillColor: Colors.black12,
-          splashColor: Colors.white,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        new PreviousPageButton(),
 
         new Image(
           image: new AssetImage('assets/cometslogo.png'),
@@ -269,65 +248,46 @@ class SportsPage extends StatelessWidget{
     return new Material( color: Colors.grey[800], child: Column(
       children: <Widget>[
 
-        new Container(
+        Container(
           height: 30.0,
-
         ),
-
-        new RawMaterialButton(
-          child: Text(getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-          shape: StadiumBorder(),
-          highlightColor: Color(0x0083ff),
-          padding: EdgeInsets.all(5),
-          fillColor: Colors.black12,
-          splashColor: Colors.white,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-
-
-        new Image(image: new AssetImage('assets/cometslogo.png'), alignment: new Alignment(-0.87, -0.87), width: 325,),
-
-        new Container(
+        
+        PreviousPageButton(),
+        
+        Image(image: new AssetImage('assets/cometslogo.png'), alignment: new Alignment(-0.87, -0.87), width: 325,),
+        
+        Container(
           height: 10.0,
 
         ),
 
 
-        new Text("ATHLETICS", style: new TextStyle( fontFamily: 'ROCK', letterSpacing: 6, fontSize: 30, color: Colors.white,),),
+        Text("ATHLETICS", style: new TextStyle( fontFamily: 'ROCK', letterSpacing: 6, fontSize: 30, color: Colors.white,),),
 
-        new Container(
+        Container(
           height: 20.0,
 
         ),
 
-        new Text("Team Games Schedule:", style: new TextStyle( fontFamily: 'ROCK', fontSize: 20, color: Colors.white, letterSpacing: 2),),
+        Text("Team Games Schedule:", style: new TextStyle( fontFamily: 'ROCK', fontSize: 20, color: Colors.white, letterSpacing: 2),),
 
-        new Container(
+        Container(
           height: 10.0,
 
         ),
 
-        new RawMaterialButton(
-          child: const Text('CALGARY SENIOR HIGH SCHOOL ATHLETIC ASSOCIATION',textAlign: TextAlign.center, style: TextStyle(color: Colors.white,letterSpacing: 4, fontFamily: 'LEMONMILKLIGHT', fontSize: 14,),),
-          shape: StadiumBorder(),
-          highlightColor: Color(0x0083ff),
-          padding: EdgeInsets.all(5),
-          fillColor: Colors.red.shade900,
-          splashColor: Colors.white,
-
-          onPressed: () {
-            launchURL(chssURL);
-          },
+        ThriveButton(
+          buttonName:'CALGARY SENIOR HIGH SCHOOL ATHLETIC ASSOCIATION',
+          fillColor: Colors.indigo,
+          onPressed: ()=>launchURL(chssURL),
         ),
 
-        new Container(
+        Container(
           height: 20.0,
 
         ),
 
-        new Text(getString('misc/under_construction'), textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 10),),
+        Text(getString('misc/under_construction'), textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 10),),
 
       ],
     ),);

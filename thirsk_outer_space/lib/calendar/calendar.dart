@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:thirsk_outer_space/general/common_widgets.dart';
 import 'package:thirsk_outer_space/strings/string_getter.dart';
 import 'package:thirsk_outer_space/general/general_functions.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -856,18 +857,7 @@ class _DetailedCalendar extends State<DetailedCalendar>{
 
             ),
 
-            new RawMaterialButton(
-              child: Text(getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-              shape: StadiumBorder(),
-              highlightColor: Color(0x0083ff),
-              padding: EdgeInsets.all(5),
-              fillColor: Colors.black12,
-              splashColor: Colors.white,
-
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            PreviousPageButton(),
 
             new Container(
               height: 20.0,

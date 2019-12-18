@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:markdown/markdown.dart';//Use for supporting markdown texts
-//import 'package:flutter_html/flutter_html.dart';
-import 'strings/string_getter.dart';
-//import 'dart:io';
+import 'package:thirsk_outer_space/general/common_widgets.dart';
 
 class MarkdownTest extends StatelessWidget{
   @override
@@ -11,17 +8,7 @@ class MarkdownTest extends StatelessWidget{
       color: Color(0xff424242),
       child: Column(
         children: <Widget>[
-          RawMaterialButton(
-            child: Text(getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-            shape: StadiumBorder(),
-            highlightColor: Color(0x0083ff),
-            padding: EdgeInsets.all(5),
-            fillColor: Colors.black12,
-            splashColor: Colors.white,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          PreviousPageButton(),
           /*Html(
             data:"""
             <h1>Super Secret Development Test Page</h1>

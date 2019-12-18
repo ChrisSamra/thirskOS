@@ -3,6 +3,7 @@
 /// Widgets appeared in this file are very general and are not limited to a single function of the app.
 
 import 'package:flutter/material.dart';
+import 'package:thirsk_outer_space/strings/string_getter.dart';
 
 /// A button that navigates between home, thrive, and event pages. Displays on the bottom of the app.
 /// 
@@ -75,4 +76,24 @@ class ThriveButtonData{
   String name;
   Function clickAction;
   ThriveButtonData(this.name,this.clickAction);
+}
+
+class PreviousPageButton extends StatelessWidget{
+  final String text;
+  PreviousPageButton({Key key, this.text}) : super(key:key);
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      child: Text(text ?? getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
+      shape: StadiumBorder(),
+      highlightColor: Color(0x0083ff),
+      padding: EdgeInsets.all(5),
+      fillColor: Colors.black12,
+      splashColor: Colors.white,
+
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+  }
 }

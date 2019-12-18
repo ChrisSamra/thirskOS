@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:thirsk_outer_space/calendar/calendar.dart';
+import 'package:thirsk_outer_space/general/common_widgets.dart';
 import 'package:thirsk_outer_space/strings/string_getter.dart';
 import 'package:thirsk_outer_space/lunch_menu/menu_display.dart';
 import 'package:thirsk_outer_space/general/version_number.dart';
@@ -20,20 +21,7 @@ class CreditPage extends StatelessWidget{  //Development credits page
 
             ),
 
-            new RawMaterialButton(
-              child: Text(
-                getString('misc/back'),
-                style: TextStyle(color: Colors.white, fontSize: 18,),
-              ),
-              shape: StadiumBorder(),
-              highlightColor: Color(0x0083ff),
-              padding: EdgeInsets.all(5),
-              fillColor: Colors.black12,
-              splashColor: Colors.white,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            PreviousPageButton(),
             //back button to return to previous page
 
             new Container(

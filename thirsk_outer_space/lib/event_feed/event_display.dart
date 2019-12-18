@@ -10,6 +10,7 @@ import 'dart:convert';
 //import 'package:date_format/date_format.dart';
 import 'dart:async';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:thirsk_outer_space/general/common_widgets.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import 'package:thirsk_outer_space/general/general_functions.dart';
 import 'package:thirsk_outer_space/strings/string_getter.dart';
@@ -188,18 +189,7 @@ class OneEventPostDetail extends StatelessWidget{
             children: <Widget>[
               Container(height: 30.0,),
 
-              RawMaterialButton(
-                child: Text(getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-                shape: StadiumBorder(),
-                highlightColor: Color(0x0083ff),
-                padding: EdgeInsets.all(5),
-                fillColor: Colors.black12,
-                splashColor: Colors.white,
-
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+              PreviousPageButton(),
 
               Container(height: 20.0,),
 
