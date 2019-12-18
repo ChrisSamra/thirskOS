@@ -170,112 +170,111 @@ class CreditPage extends StatelessWidget{  //Development credits page
     return new Material(
       color: Colors.grey[800],
       child: SingleChildScrollView(
-        child:
-          Column(
-            children: <Widget>[
-              new Container(
-                height: 30.0,
+        child: Column(
+          children: <Widget>[
+            new Container(
+              height: 30.0,
 
+            ),
+
+            new RawMaterialButton(
+              child: Text(
+                getString('misc/back'),
+                style: TextStyle(color: Colors.white, fontSize: 18,),
               ),
+              shape: StadiumBorder(),
+              highlightColor: Color(0x0083ff),
+              padding: EdgeInsets.all(5),
+              fillColor: Colors.black12,
+              splashColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            //back button to return to previous page
 
-              new RawMaterialButton(
-                child: Text(
-                  getString('misc/back'),
-                  style: TextStyle(color: Colors.white, fontSize: 18,),
-                ),
-                shape: StadiumBorder(),
-                highlightColor: Color(0x0083ff),
-                padding: EdgeInsets.all(5),
-                fillColor: Colors.black12,
-                splashColor: Colors.white,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+            new Container(
+              height: 20.0,
+
+            ),
+
+            new Image(
+              image: new AssetImage('assets/icf.png'),
+              height: 160,
+            ),
+
+            new Container(
+              height: 10.0,
+
+            ),
+
+            new Text(
+              getString('credit/app_title'),
+              style: new TextStyle(
+                fontFamily: 'ROCK',
+                letterSpacing: 4,
+                fontSize: 22,
+                color: Color(0xFF5d9dfa),
               ),
-              //back button to return to previous page
+            ),
 
-              new Container(
-                height: 20.0,
-
+            new Text(
+              "${getString('credit/version')}: ${appInfo.version}",
+              style: new TextStyle(
+                fontFamily: 'ROCK',
+                fontSize: 12,
+                color: Color(0xFF5d9dfa),
+                letterSpacing: 2,
               ),
+            ),
 
-              new Image(
-                image: new AssetImage('assets/icf.png'),
-                height: 160,
-              ),
+            new Container(
+              height: 20.0,
+            ),
 
-              new Container(
-                height: 10.0,
-
-              ),
-
-              new Text(
-                getString('credit/app_title'),
-                style: new TextStyle(
+            new Text(
+              getString('credit/2018/header'),
+              style: new TextStyle(
                   fontFamily: 'ROCK',
-                  letterSpacing: 4,
                   fontSize: 22,
-                  color: Color(0xFF5d9dfa),
-                ),
-              ),
+                  color: Colors.white,
+                  letterSpacing: 2),
+            ),
 
-              new Text(
-                "${getString('credit/version')}: ${appInfo.version}",
-                style: new TextStyle(
+            new Container(
+              height: 3.0,
+
+            ),
+
+            new Text(
+              getString('credit/2018/credit'),
+              textAlign: TextAlign.left,
+              style: TextStyle(color: Colors.white, fontSize: 14),
+
+            ),
+            new Container(height:20.0),
+            new Text(
+              getString('credit/2019/header'),
+              style: new TextStyle(
                   fontFamily: 'ROCK',
-                  fontSize: 12,
-                  color: Color(0xFF5d9dfa),
-                  letterSpacing: 2,
-                ),
-              ),
+                  fontSize: 22,
+                  color: Colors.white,
+                  letterSpacing: 2),
+            ),
 
-              new Container(
-                height: 20.0,
-              ),
+            new Container(
+              height: 3.0,
 
-              new Text(
-                getString('credit/2018/header'),
-                style: new TextStyle(
-                    fontFamily: 'ROCK',
-                    fontSize: 22,
-                    color: Colors.white,
-                    letterSpacing: 2),
-              ),
+            ),
 
-              new Container(
-                height: 3.0,
+            new Text(
+              getString('credit/2019/credit'),
+              textAlign: TextAlign.left,
+              style: TextStyle(color: Colors.white, fontSize: 14),
 
-              ),
-
-              new Text(
-                getString('credit/2018/credit'),
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.white, fontSize: 14),
-
-              ),
-              new Container(height:20.0),
-              new Text(
-                getString('credit/2019/header'),
-                style: new TextStyle(
-                    fontFamily: 'ROCK',
-                    fontSize: 22,
-                    color: Colors.white,
-                    letterSpacing: 2),
-              ),
-
-              new Container(
-                height: 3.0,
-
-              ),
-
-              new Text(
-                getString('credit/2019/credit'),
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.white, fontSize: 14),
-
-              ),
-            ],
-          )
+            ),
+          ],
+        ),
       ),
     );
   }
