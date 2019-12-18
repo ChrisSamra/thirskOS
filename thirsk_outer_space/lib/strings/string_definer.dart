@@ -50,7 +50,7 @@ DisplayString stringAsset = DisplayString(stringMap:
   'calendar/view_detail':'View Detail',
 
   'credit/app_title' : 'THIRSK OUTER SPACE',
-  'credit/version' : 'Closed Alpha: v0.1',
+  'credit/version' : 'Closed Alpha',
   'credit/2018/header' : 'Credits(2018~2019):',
   'credit/2018/credit' :
     'Creator/Lead App Developer: Christopher Samra\n'

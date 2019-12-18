@@ -7,6 +7,7 @@ import 'general_functions.dart';
 import 'strings/string_getter.dart';
 import 'lunch_menu/menu_display.dart';
 import 'dev_function_page.dart';
+import 'version_number.dart';
 
 const ctsURL ="";//placeholder for button link for cts page
 
@@ -32,11 +33,12 @@ const qappURL = 'https://questaplus.alberta.ca/PracticeMain.html#';
 // constants that hold all the resource links within thirskOS primarily on the thrive page, this is modular in the sense that it's easy to swap out links
 // and add new ones when needed with little programing knowledge
 
-///Don't steal my api key
+// ///Don't steal my api key
 //const String APP_API_KEY = "AIzaSyCE5gLyCtDW6dzAkPBowBdeXqAy5iw7ebY";
 
-
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 /// A button for all your navigation needs. Displays on the bottom of the app.
 /// 
@@ -101,14 +103,8 @@ class ThriveButtonData{
 /// The home page of the application. Displays on startup.
 class HomePage extends StatelessWidget{
 
-  //if/else statement which essentially says when the focus/connect rooms link is to be opened, how will it be opened on both IOS and ANDROID
-  //else just gives a print statement
-
-
   @override
   Widget build(BuildContext context) { //builds the page
-    //variables of images and text to be on the page
-
     return new Container( child: ListView ( //dictates page format
       children: <Widget>[
 
@@ -171,112 +167,116 @@ class CreditPage extends StatelessWidget{  //Development credits page
 
   @override
   Widget build(BuildContext context) {
-    return new Material( color: Colors.grey[800], child: Column(
-      children: <Widget>[
+    return new Material(
+      color: Colors.grey[800],
+      child: SingleChildScrollView(
+        child:
+          Column(
+            children: <Widget>[
+              new Container(
+                height: 30.0,
 
-        new Container(
-          height: 30.0,
+              ),
 
-        ),
+              new RawMaterialButton(
+                child: Text(
+                  getString('misc/back'),
+                  style: TextStyle(color: Colors.white, fontSize: 18,),
+                ),
+                shape: StadiumBorder(),
+                highlightColor: Color(0x0083ff),
+                padding: EdgeInsets.all(5),
+                fillColor: Colors.black12,
+                splashColor: Colors.white,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              //back button to return to previous page
 
-        new RawMaterialButton(
-          child: Text(
-            getString('misc/back'),
-            style: TextStyle(color: Colors.white, fontSize: 18,),
-          ),
-          shape: StadiumBorder(),
-          highlightColor: Color(0x0083ff),
-          padding: EdgeInsets.all(5),
-          fillColor: Colors.black12,
-          splashColor: Colors.white,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        //back button to return to previous page
+              new Container(
+                height: 20.0,
 
-        new Container(
-          height: 20.0,
+              ),
 
-        ),
+              new Image(
+                image: new AssetImage('assets/icf.png'),
+                height: 160,
+              ),
 
-        new Image(
-          image: new AssetImage('assets/icf.png'),
-          height: 160,
-        ),
+              new Container(
+                height: 10.0,
 
-        new Container(
-          height: 10.0,
+              ),
 
-        ),
+              new Text(
+                getString('credit/app_title'),
+                style: new TextStyle(
+                  fontFamily: 'ROCK',
+                  letterSpacing: 4,
+                  fontSize: 22,
+                  color: Color(0xFF5d9dfa),
+                ),
+              ),
 
-        new Text(
-          getString('credit/app_title'),
-          style: new TextStyle(
-            fontFamily: 'ROCK',
-            letterSpacing: 4,
-            fontSize: 22,
-            color: Color(0xFF5d9dfa),
-          ),
-        ),
+              new Text(
+                "${getString('credit/version')}: ${appInfo.version}",
+                style: new TextStyle(
+                  fontFamily: 'ROCK',
+                  fontSize: 12,
+                  color: Color(0xFF5d9dfa),
+                  letterSpacing: 2,
+                ),
+              ),
 
-        new Text(
-          getString('credit/version'),
-          style: new TextStyle(
-            fontFamily: 'ROCK',
-            fontSize: 12,
-            color: Color(0xFF5d9dfa),
-            letterSpacing: 2,
-          ),
-        ),
+              new Container(
+                height: 20.0,
+              ),
 
-        new Container(
-          height: 20.0,
-        ),
+              new Text(
+                getString('credit/2018/header'),
+                style: new TextStyle(
+                    fontFamily: 'ROCK',
+                    fontSize: 22,
+                    color: Colors.white,
+                    letterSpacing: 2),
+              ),
 
-        new Text(
-          getString('credit/2018/header'),
-          style: new TextStyle(
-              fontFamily: 'ROCK',
-              fontSize: 22,
-              color: Colors.white,
-              letterSpacing: 2),
-        ),
+              new Container(
+                height: 3.0,
 
-        new Container(
-          height: 3.0,
+              ),
 
-        ),
+              new Text(
+                getString('credit/2018/credit'),
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.white, fontSize: 14),
 
-        new Text(
-          getString('credit/2018/credit'),
-          textAlign: TextAlign.left,
-          style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              new Container(height:20.0),
+              new Text(
+                getString('credit/2019/header'),
+                style: new TextStyle(
+                    fontFamily: 'ROCK',
+                    fontSize: 22,
+                    color: Colors.white,
+                    letterSpacing: 2),
+              ),
 
-        ),
-        new Container(height:20.0),
-        new Text(
-          getString('credit/2019/header'),
-          style: new TextStyle(
-              fontFamily: 'ROCK',
-              fontSize: 22,
-              color: Colors.white,
-              letterSpacing: 2),
-        ),
+              new Container(
+                height: 3.0,
 
-        new Container(
-          height: 3.0,
+              ),
 
-        ),
+              new Text(
+                getString('credit/2019/credit'),
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.white, fontSize: 14),
 
-        new Text(
-          getString('credit/2019/credit'),
-          textAlign: TextAlign.left,
-          style: TextStyle(color: Colors.white, fontSize: 14),
-
-        ),
-      ],
-    ),
+              ),
+            ],
+          )
+      ),
     );
   }
 } //Dev Credits Page
@@ -628,6 +628,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //maintains vertical orientation
+    getAppInfo();
     return new MaterialApp(
       title: "thirskOS",
       color: Colors.grey,
