@@ -1,3 +1,5 @@
+/// This file defines many functions that are used throughout the application.
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';

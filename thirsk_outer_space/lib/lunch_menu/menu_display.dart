@@ -1,3 +1,4 @@
+/// This file defines functions and classes related to the lunch menu.
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

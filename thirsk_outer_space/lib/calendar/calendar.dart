@@ -1,7 +1,9 @@
+/// This file contains all functions and classes related to the calendar system.
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../strings/string_getter.dart';
-import '../general_functions.dart';
+import 'package:thirsk_outer_space/strings/string_getter.dart';
+import 'package:thirsk_outer_space/general/general_functions.dart';
 import 'package:table_calendar/table_calendar.dart';
 //import 'package:sprintf/sprintf.dart';
 

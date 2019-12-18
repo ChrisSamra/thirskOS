@@ -1,3 +1,5 @@
+/// This file defines the identifiers of strings used in the [getString] function.
+
 part of 'string_getter.dart';
 ///The dictionary of string referred to in the app. Helps organize strings.
 DisplayString stringAsset = DisplayString(stringMap:
@@ -62,7 +64,7 @@ DisplayString stringAsset = DisplayString(stringMap:
     'Lead App Developer: Roger Cao\n'
     'Lead Backend Developer: Umut Emre\n'
     'Frontend Developers: Danial Baek, Joey Koay\n'
-    'Random Nobodys:\n-Matt Groeneveldt\n-Ava Daly\n-Tom Allwright\n' //To get promoted, actually tell me what you're doing
+    'Random Nobodys:\n-Matt Groeneveldt\n-Tom Allwright\n' //To get promoted, actually tell me what you're doing
     'Closed Alpha Testers: No one yet',
 
   'event/button':'EVENTS',

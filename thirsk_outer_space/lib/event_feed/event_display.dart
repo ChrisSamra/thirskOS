@@ -1,3 +1,5 @@
+/// This file defines all functions and classes related to the event system on the event page.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,8 +11,8 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter_linkify/flutter_linkify.dart';
 //import 'package:url_launcher/url_launcher.dart';
-import '../general_functions.dart';
-import '../strings/string_getter.dart';
+import 'package:thirsk_outer_space/general/general_functions.dart';
+import 'package:thirsk_outer_space/strings/string_getter.dart';
 import 'package:sprintf/sprintf.dart';
 //import 'dart:io';
 

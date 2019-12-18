@@ -1,3 +1,5 @@
+/// This file defines [DisplayString] and [getString], which are used to replace strings that appears
+/// in other files with an identifier, so the strings can be more organized.
 part 'string_definer.dart';
 ///Class for a dictionary of display string and ways to retrieve the string.
 class DisplayString{
