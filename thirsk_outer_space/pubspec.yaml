@@ -25,6 +25,8 @@ dependencies:
   path_provider: ^1.5.1
   flutter_linkify: ^2.1.0
   sprintf: ^4.0.0
+  package_info: ^0.4.0
+  flutter_markdown: ^0.3.2
   #flutter_calendar_carousel: ^1.4.8
   table_calendar: ^2.2.1
   flutter:

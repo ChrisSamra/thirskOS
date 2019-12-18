@@ -12,7 +12,7 @@ If you intend to work on the backend of the app, go find Umut. He's the one deal
 
 If you are interested in working on the front end of this app, and already know how flutter works, then you need to know what specific functions that are added to help the development of this app. It is recommended to read the documentation for the various functions in the app.
 
-You could read the source code if you want. It is most likely up to date with everything. However, if you want a cooler documentation, you can visit [here](thirsk_outer_space/doc/api/index.html). This is generated using [dartdoc](https://dart.dev/tools/dartdoc), which is built in Dart SDK.
+You could read the source code if you want. It is most likely up to date with everything. However, if you want a cooler documentation, you can run `dartdoc` at `../thirsk_outer_space` in the command line(you have to add Dart SDK to the command line first. see "Command line using" below). It will generate a documentation file for this project. It is ignored in GitHub because there are too many files to track.
 
 ## Command line using
 
