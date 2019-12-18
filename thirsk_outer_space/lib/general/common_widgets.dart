@@ -77,7 +77,7 @@ class ThriveButtonData{
   Function clickAction;
   ThriveButtonData(this.name,this.clickAction);
 }
-
+/// A button when pressed, returns to the previous page. Should be included in all subpages.
 class PreviousPageButton extends StatelessWidget{
   final String text;
   PreviousPageButton({Key key, this.text}) : super(key:key);
