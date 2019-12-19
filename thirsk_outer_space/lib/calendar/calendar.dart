@@ -129,16 +129,16 @@ class EventDuration{
   }
 }
 /// An entry of a [SchoolDaySchedule], such as focus period or Period 1.
-class ScheduleEntry{
+class ScheduleEntry implements Cloneable{
   /// When the current period starts. Must be before [endTime].
-  final TimeOfDay startTime;
+  TimeOfDay startTime;
   /// When the current period ends. Must be after [startTime].
-  final TimeOfDay endTime;
+  TimeOfDay endTime;
   /// The name of the schedule, such as "Focus".
-  final String title;
+  String title;
   /// The alternative name of the schedule. This title is used instead of [title] when
   /// [SchoolDaySchedule.alternativeCondition]
-  final String alternativeTitle;
+  String alternativeTitle;
   ScheduleEntry(this.startTime,this.endTime,this.title,[this.alternativeTitle]) {
     if(timeOfDayDifference(startTime, endTime) >= 0)
       throw ArgumentError("startTime must be earlier than endTime");
@@ -146,11 +146,22 @@ class ScheduleEntry{
   bool isUnderDuration(TimeOfDay now){
     return timeOfDayDifference(startTime, now) <= 0 && timeOfDayDifference(now, endTime) <= 0;
   }
+  @override
+  Object clone() {
+    return ScheduleEntry(this.startTime, this.endTime, this.title, this.alternativeTitle);
+  }
+  @override
+  String toString() {
+    if(alternativeTitle != null)
+      return "$title/$alternativeTitle: from $startTime to $endTime";
+    else
+      return "$title: from $startTime to $endTime";
+  }
 }
 /// Condition checking logic based on a [DateTime].
 typedef DateTimeCondition = bool Function(DateTime a);
 /// A schedule of the a day of school.
-class SchoolDaySchedule{
+class SchoolDaySchedule implements Cloneable{
   /// The default schedule of the current type of schedule.
   /// 
   /// This schedule should be valid, according to [checkValidSchedule].
@@ -199,15 +210,6 @@ class SchoolDaySchedule{
     //  throw ArgumentError("schedule must be valid(see documentation on checkValidSchedule)");
   }
 
-//  /// Get the schedule that [now] applies to.
-//  ///
-//  /// If [alternativeCondition] ([now]) is true, then [alternativeSchedule] is returned,
-//  /// otherwise [schedule] is returned.
-//  List<ScheduleEntry> getSchedule(DateTime now){
-//    if(alternativeSchedule == null)
-//      return schedule;
-//    return (alternativeCondition ?? defaultAlternateCondition)(now) ? alternativeSchedule : schedule;
-//  }
   /// Get the index of the current period in the schedule based on [now].
   ///
   /// Precondition: [schedule] is valid.
@@ -243,12 +245,12 @@ class SchoolDaySchedule{
     var useAlternativeTitle = (alternativeCondition ?? defaultAlternativeCondition)(now);
     var currentTime = TimeOfDay.fromDateTime(now);
     if(periodIndex >= 0 && periodIndex < scheduleLength){
-      return "${useAlternativeTitle ? schedule[periodIndex].alternativeTitle : schedule[periodIndex].title} "
+      return "${useAlternativeTitle && schedule[periodIndex].alternativeTitle != null ? schedule[periodIndex].alternativeTitle : schedule[periodIndex].title} "
           "${getString('calendar/schoolday/ends_in')} "
           "${timeOfDayDifference(schedule[periodIndex].endTime, currentTime)} "
           "${getString('calendar/schoolday/minutes')}";
     } else if(periodIndex >= -scheduleLength && periodIndex < 0){
-      return "${useAlternativeTitle ? schedule[periodIndex + scheduleLength].alternativeTitle : schedule[periodIndex + scheduleLength].title} "
+      return "${useAlternativeTitle && schedule[periodIndex].alternativeTitle != null ? schedule[periodIndex + scheduleLength].alternativeTitle : schedule[periodIndex + scheduleLength].title} "
           "${getString('calendar/schoolday/starts_in')} "
           "${timeOfDayDifference(schedule[periodIndex + scheduleLength].startTime, currentTime)} "
           "${getString('calendar/schoolday/minutes')}";
@@ -270,6 +272,36 @@ class SchoolDaySchedule{
   /// ```
   String getCurrentPeriodText(DateTime now){
     return _getCurrentPeriodText(getCurrentPeriod(TimeOfDay.fromDateTime(now)), now);
+  }
+  /// Replaces all [ScheduleEntry] that has [ScheduleEntry.title] equal to [from]
+  /// into [to].
+  /// 
+  /// Returns an new object as the return value so the original object is not modified.
+  SchoolDaySchedule replaceScheduleName(String from, String to, [bool replaceAltName = false]){
+    SchoolDaySchedule returnVal = this.clone();
+    for(var i = 0; i < returnVal.schedule.length; i++){
+      if(returnVal.schedule[i].title.compareTo(from) == 0){
+        returnVal.schedule[i].title = to;
+      }
+      if(replaceAltName && returnVal.schedule[i].alternativeTitle.compareTo(from) == 0){
+        returnVal.schedule[i].alternativeTitle = to;
+      }
+      print(returnVal.schedule[i].title);
+    }
+    return returnVal;
+  }
+
+  @override
+  Object clone() {
+    var returnVal = SchoolDaySchedule(schedule: List<ScheduleEntry>(),alternativeCondition: alternativeCondition);
+    for(var i in schedule){
+      returnVal.schedule.add(i.clone());
+    }
+    return returnVal;
+  }
+  @override
+  String toString() {
+    return "Schedule:$schedule, alternative condition: ${alternativeCondition??defaultAlternativeCondition}";
   }
 }
 /// A static class for a list of preset schedules.
@@ -325,7 +357,7 @@ class SchoolDaySchedules{
       ScheduleEntry(
         TimeOfDay(hour: 9, minute: 30),
         TimeOfDay(hour: 10, minute: 15),
-        getString('calendar/schoolday/connect'),
+        getString('calendar/schoolday/focus'),
       ),
       ScheduleEntry(
         TimeOfDay(hour: 10, minute: 15),
@@ -352,6 +384,49 @@ class SchoolDaySchedules{
       ),
     ],
   );
+  static SchoolDaySchedule pepRallySchedule = SchoolDaySchedule(
+    schedule: <ScheduleEntry>[
+      ScheduleEntry(
+        TimeOfDay(hour: 8, minute: 30),
+        TimeOfDay(hour: 9, minute: 30),
+        getString('calendar/schoolday/period') + " 1",
+        getString('calendar/schoolday/period') + " 2",
+      ),
+      ScheduleEntry(
+        TimeOfDay(hour: 9, minute: 30),
+        TimeOfDay(hour: 10, minute: 15),
+        getString('calendar/schoolday/connect'),
+      ),
+      ScheduleEntry(
+        TimeOfDay(hour: 10, minute: 15),
+        TimeOfDay(hour: 11, minute: 15),
+        getString('calendar/schoolday/period') + " 2",
+        getString('calendar/schoolday/period') + " 1",
+      ),
+      ScheduleEntry(
+        TimeOfDay(hour: 11, minute: 15),
+        TimeOfDay(hour: 11, minute: 45),
+        getString('calendar/schoolday/nutrition_break'),
+      ),
+      ScheduleEntry(
+        TimeOfDay(hour: 11, minute: 45),
+        TimeOfDay(hour: 12, minute: 45),
+        getString('calendar/schoolday/period') + " 3",
+        getString('calendar/schoolday/period') + " 4",
+      ),
+      ScheduleEntry(
+        TimeOfDay(hour: 12, minute: 45),
+        TimeOfDay(hour: 13, minute: 45),
+        getString('calendar/schoolday/period') + " 4",
+        getString('calendar/schoolday/period') + " 3",
+      ),
+      ScheduleEntry(
+        TimeOfDay(hour: 13, minute: 45),
+        TimeOfDay(hour: 15, minute: 0),
+        getString('calendar/special/pep_rally'),
+      )
+    ],
+  );
 }
 
 /// The information for school day for a period of time, such as whether it is a regular day, non-instructional, or a national holiday
@@ -369,7 +444,13 @@ class SchoolDayInformation{
   bool ignoreInCalendar;
   /// If specified, override the default schedule.
   SchoolDaySchedule overrideSchedule;
-
+  /// An optional tag for this object.
+  /// 
+  /// Currently the tags that are used are:
+  /// * [replaceFocusWithConnect] 
+  Set<String> tags;
+  /// A tag allowed in [tags]. Change the name of all focus periods with "Connect" in today's schedule.
+  static const String replaceFocusWithConnect = "replaceFocusWithConnect";
 
   SchoolDayInformation({
     @required this.schoolDayType,
@@ -378,6 +459,7 @@ class SchoolDayInformation{
     @required this.duration,
     this.ignoreInCalendar = false,
     this.overrideSchedule,
+    this.tags,
   });
 
   /// Check if [currentDate] is under this duration.
@@ -421,11 +503,29 @@ class SchoolCalendar{
   ///
   /// If no object falls under the above category, [SchoolDaySchedules.defaultSchedule] is selected instead.
   SchoolDaySchedule getSchedule(DateTime currentDate){
+    var tags = getInfo(currentDate).tags;
+    // This part of the code process the tags and see if the schedule should be modified accordingly.
+    SchoolDaySchedule processSchedule(SchoolDaySchedule initial){
+      var returnVal = initial;
+      if(tags != null){
+        if(tags.contains(SchoolDayInformation.replaceFocusWithConnect)){
+          returnVal = initial.replaceScheduleName(
+            getString('calendar/schoolday/focus'),
+            getString('calendar/schoolday/connect')
+          );
+        }
+      }
+      print(returnVal);
+      return returnVal;
+    }
     for(var oneEvent in eventLists){
       if(oneEvent.isUnderDuration(currentDate) && oneEvent.overrideSchedule != null)
-        return oneEvent.overrideSchedule;
+      {
+        return processSchedule(oneEvent.overrideSchedule);
+      }
+      
     }
-    return SchoolDaySchedules.defaultSchedule;
+    return processSchedule(SchoolDaySchedules.defaultSchedule);
   }
   ///Get the holiday calendar used in [TableCalendar]. Note that the event id, rather than the actual event reference is passed. Might change later
   Map<DateTime,List> getHolidayCalendar([DateTime startDay, DateTime endDay]){
@@ -434,9 +534,7 @@ class SchoolCalendar{
       if(!oneEvent.ignoreInCalendar){
         for(var i in oneEvent.duration.getListOfDates(startDay, endDay)){
           if(!returnVal.containsKey(i)){
-            returnVal[i] = [oneEvent];//["eventid_"+_identifierCount.toString()];
-            //_identifierEventMap["eventid_"+_identifierCount.toString()] = oneEvent;
-            //_identifierCount++;
+            returnVal[i] = [oneEvent];
           }
         }
       }
@@ -455,115 +553,119 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/labour_day'),
           greeting: getString('calendar/holiday/labour_day/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,9,2))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,9,2)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,9,3))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,9,3)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,9,20))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,9,20)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,10,11))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,10,11)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/thanksgiving'),
           greeting: getString('calendar/holiday/thanksgiving/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2019,10,12),DateTime(2019,10,14))
+          duration: EventDuration(DurationType.fromTo,DateTime(2019,10,12),DateTime(2019,10,14)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,11,1))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,11,1)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/rememberance'),
           greeting: getString('calendar/holiday/rememberance/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2019,11,9),DateTime(2019,11,11))
+          duration: EventDuration(DurationType.fromTo,DateTime(2019,11,9),DateTime(2019,11,11)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,11,22))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,11,22)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/last_day'),
           greeting: getString('calendar/last_day/christmas_greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,12,19))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,12,19)),
+          // The last day of school has a pep rally in the end. the schedule overrides the normal schedule
+          overrideSchedule: SchoolDaySchedules.pepRallySchedule,
+          // There is also connect instead of focus
+          tags: Set.from([SchoolDayInformation.replaceFocusWithConnect]),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,12,20))
+          duration: EventDuration(DurationType.singleDay,DateTime(2019,12,20)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/break/christmas'),
           greeting: getString('calendar/break/christmas/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2019,12,21),DateTime(2020,1,5))
+          duration: EventDuration(DurationType.fromTo,DateTime(2019,12,21),DateTime(2020,1,5)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,1,6))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,1,6)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,1,31))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,1,31)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/teachers_convention'),
           greeting: getString('calendar/holiday/teachers_convention/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,2,13),DateTime(2020,2,14))
+          duration: EventDuration(DurationType.fromTo,DateTime(2020,2,13),DateTime(2020,2,14)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/family_day'),
           greeting: getString('calendar/holiday/family_day/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,2,15),DateTime(2020,2,17))
+          duration: EventDuration(DurationType.fromTo,DateTime(2020,2,15),DateTime(2020,2,17)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/last_day'),
           greeting: getString('calendar/last_day/spring_greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,19))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,19)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,20))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,20)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/break/spring_break'),
           greeting: getString('calendar/break/spring_break/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,3,21),DateTime(2020,3,29))
+          duration: EventDuration(DurationType.fromTo,DateTime(2020,3,21),DateTime(2020,3,29)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,30))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,30)),
       ),
 //      SchoolDayInformation(
 //          schoolDayType: SchoolDayType.schoolDay,
@@ -575,44 +677,44 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/good_friday'),
           greeting: getString('calendar/holiday/good_friday/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,4,10),DateTime(2020,4,12))
+          duration: EventDuration(DurationType.fromTo,DateTime(2020,4,10),DateTime(2020,4,12)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,4,13))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,4,13)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,5,15))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,5,15)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/victoria_day'),
           greeting: getString('calendar/holiday/victoria_day/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,5,16),DateTime(2020,5,18))
+          duration: EventDuration(DurationType.fromTo,DateTime(2020,5,16),DateTime(2020,5,18)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/last_day'),
           greeting: getString('calendar/last_day/summer_greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,6,29))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,6,29)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,6,30))
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,6,30)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/break/summer_break'),
           greeting: getString('calendar/break/summer_break/greeting'),
           //TODO:Update the end date for summer break as soon as next year's calendar is released.
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,7,1),DateTime(2020,8,31))
+          duration: EventDuration(DurationType.fromTo,DateTime(2020,7,1),DateTime(2020,8,31)),
       ),
 
       /*
@@ -632,6 +734,7 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
         duration: EventDuration(DurationType.weekly,[false,false,false,false,true,false,false]),
         ignoreInCalendar: true,
         overrideSchedule: SchoolDaySchedules.fridaySchedule,
+        tags: Set.from([SchoolDayInformation.replaceFocusWithConnect]),
       ),
       // Non-Friday schedules
       SchoolDayInformation(
@@ -652,7 +755,7 @@ class _DateDisplayState extends State<DateDisplay>{
 
   @override
   Widget build(BuildContext context) {
-    var currentDate = DateTime.now();
+    var currentDate = DateTime.parse("2019-12-19 09:45:00");//.now();
     var todaysInfo = schoolCalendar.getInfo(currentDate);
     var currentPeriod = "No Class";
 //    int timeOfDayToInt(int hour,int minute) => hour * 60 + minute;
@@ -660,36 +763,6 @@ class _DateDisplayState extends State<DateDisplay>{
     if(todaysInfo.schoolDayType == SchoolDayType.schoolDay){
       var todaysSchedule = schoolCalendar.getSchedule(currentDate);
       currentPeriod = todaysSchedule.getCurrentPeriodText(currentDate);
-      //var scheduleIndex
-//      var periods = [[0,2,1,4,3],[0,1,2,3,4]];
-//      bool finished = false;
-//      void setCurrentPeriod(int hour, int minute, String text){
-//        if(!finished && datetimeToInt(currentDate) < timeOfDayToInt(hour,minute)) {
-//          currentPeriod = text + " " +
-//              (timeOfDayToInt(hour, minute) - datetimeToInt(currentDate))
-//                  .toString() + " minute(s).";
-//          finished = true;
-//        }
-//      }
-//      if(currentDate.weekday == 5){
-//        setCurrentPeriod(8,30,getString('calendar/schoolday/beginning_of_school'));
-//        setCurrentPeriod(9,30,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][1].toString() + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(10,15,getString('calendar/schoolday/connect') + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(11,15,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][2].toString() + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(11,35,getString('calendar/schoolday/lunch') + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(12,35,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][3].toString() + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(13,35,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][4].toString() + " " + getString('calendar/schoolday/ends_in'));
-//      } else {
-//        setCurrentPeriod(8,30,getString('calendar/schoolday/beginning_of_school'));
-//        setCurrentPeriod(9,45,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][1].toString() + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(10,35,getString('calendar/schoolday/focus') + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(11,50,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][2].toString() + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(12,30,getString('calendar/schoolday/lunch') + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(13,45,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][3].toString() + " " + getString('calendar/schoolday/ends_in'));
-//        setCurrentPeriod(15,0,getString('calendar/schoolday/period') + " " + periods[currentDate.weekday % 2][4].toString() + " " + getString('calendar/schoolday/ends_in'));
-//      }
-//      if(!finished)
-//        currentPeriod = getString('calendar/schoolday/end_of_school');
     }
     var schoolText = todaysInfo.greeting != null ? Text(todaysInfo.greeting) : null;
     return Column(
@@ -758,11 +831,6 @@ class _DetailedCalendar extends State<DetailedCalendar>{
     super.dispose();
   }
   void _onDaySelected(DateTime date, List events){
-
-//    for(var i in events){
-//      print(i.runtimeType);
-//      print('Event: ' + i.toString());//_eventIdentifier[i].title);
-//    }
     setState(() {
       print('Selected ' + date.toString() + ': ');
       print(events);

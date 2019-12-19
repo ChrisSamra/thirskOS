@@ -1,4 +1,4 @@
-/// This file defines many functions that are used throughout the application.
+/// This file defines many functions and classes that are used throughout the application.
 
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -28,4 +28,19 @@ int timeOfDayToInt(TimeOfDay timeOfDay){
 /// If [a] is later than [b], the value is positive; otherwise, it's negative.
 int timeOfDayDifference(TimeOfDay a, TimeOfDay b){
   return timeOfDayToInt(a) - timeOfDayToInt(b);
+}
+
+/// An interface for objects that can be cloned, either a shallow copy or a deep copy.
+/// 
+/// For some reason, flutter does not have this as one of its default functions.
+abstract class Cloneable{
+  /// Clones an object. Returns a new object with values identicle to the object that this is called on.
+  /// 
+  /// There are two types of cloning: shallow copying or deep copying.
+  /// 
+  /// * Shallow copying only copies reference to the fields of the original object, which means changing
+  /// the field in the new object will change the field in the original object.
+  /// * Deep copying makes new objects for the fields of th original object, making the original object
+  /// and the new object completely independent.
+  Object clone();
 }
