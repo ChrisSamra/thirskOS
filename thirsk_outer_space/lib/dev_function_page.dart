@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:thirsk_outer_space/general/common_widgets.dart';
 
 class MarkdownTest extends StatelessWidget{
@@ -9,6 +10,11 @@ class MarkdownTest extends StatelessWidget{
       child: Column(
         children: <Widget>[
           PreviousPageButton(),
+          MarkdownBody(
+            data: """
+            To be, or _not_ to be, that *is* the question.
+            """,
+          ),
           /*Html(
             data:"""
             <h1>Super Secret Development Test Page</h1>

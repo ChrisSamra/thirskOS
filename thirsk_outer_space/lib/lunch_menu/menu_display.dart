@@ -42,7 +42,22 @@ class OneDayMenu {
   String dessert;
   String dessertCost;
   String menuDate;
-  OneDayMenu({this.menuID,this.soup,this.soupCost,this.entree,this.entreeCost,this.starch,this.starchCost,this.veggie,this.veggieCost,this.dessert,this.dessertCost,this.menuDate});
+  OneDayMenu({
+    this.menuID,
+    this.soup,
+    this.soupCost,
+    this.entree,
+    this.entreeCost,
+    this.starch,
+    this.starchCost,
+    this.starchLabel,
+    this.veggie,
+    this.veggieCost,
+    this.veggieLabel,
+    this.dessert,
+    this.dessertCost,
+    this.menuDate
+  });
 
 
   /// A necessary factory constructor for creating a new [OneDayMenu] instance

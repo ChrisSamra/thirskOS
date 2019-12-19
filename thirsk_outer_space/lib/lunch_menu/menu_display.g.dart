@@ -15,8 +15,10 @@ OneDayMenu _$OneDayMenuFromJson(Map<String, dynamic> json) {
       entreeCost: json['entreeCost'] as String,
       starch: json['starch1'] as String,
       starchCost: json['starch1Cost'] as String,
+      starchLabel: json['starch1Title'] as String,
       veggie: json['starch2'] as String,
       veggieCost: json['starch2Cost'] as String,
+      veggieLabel: json['starch2Title'] as String,
       dessert: json['dessert'] as String,
       dessertCost: json['dessertCost'] as String,
       menuDate: json['menuDate'] as String);
@@ -31,8 +33,10 @@ Map<String, dynamic> _$OneDayMenuToJson(OneDayMenu instance) =>
       'entreeCost': instance.entreeCost,
       'starch1': instance.starch,
       'starch1Cost': instance.starchCost,
+      'starch1Title': instance.starchLabel,
       'starch2': instance.veggie,
       'starch2Cost': instance.veggieCost,
+      'starch2Title': instance.veggieLabel,
       'dessert': instance.dessert,
       'dessertCost': instance.dessertCost,
       'menuDate': instance.menuDate

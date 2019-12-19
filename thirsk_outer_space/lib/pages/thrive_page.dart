@@ -7,7 +7,7 @@ import 'package:thirsk_outer_space/general/common_widgets.dart';
 
 const ctsURL ="";//placeholder for button link for cts page
 
-const esURL = 'alberta.ca/assets/documents/ed-diploma-exam-schedule.pdf';
+const esURL = 'https://alberta.ca/assets/documents/ed-diploma-exam-schedule.pdf';
 const dockURL = "http://school.cbe.ab.ca/school/robertthirsk/culture-environment/school-spirit/merchandise/pages/default.aspx";
 const clubURL = "http://school.cbe.ab.ca/school/robertthirsk/extracurricular/clubs/pages/default.aspx";
 const staffURL = "http://school.cbe.ab.ca/school/robertthirsk/about-us/contact/staff/pages/default.aspx";
