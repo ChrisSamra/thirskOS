@@ -815,8 +815,8 @@ class _DateDisplayState extends State<DateDisplay>{
         ),
         //TODO: Make the button cooler
         RawMaterialButton(
-          child: Text(getString('calendar/view_detail'), style: TextStyle(color: Colors.white, fontSize: 18,),),
-          shape: StadiumBorder(),
+          child: Icon(Icons.assignment,color: Colors.white,),//Text(getString('calendar/view_detail'), style: TextStyle(color: Colors.white, fontSize: 18,),),
+          shape: CircleBorder(),
           highlightColor: Color(0x0083ff),
           padding: EdgeInsets.all(5),
           fillColor: Colors.black12,
