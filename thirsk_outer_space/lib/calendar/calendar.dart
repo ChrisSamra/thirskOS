@@ -94,7 +94,7 @@ class EventDuration{
         }
         return dates;
       case DurationType.weekly:
-        if(startTime == null || endTime == null)
+        if(startTime == null || endTime == null || startTime.isAfter(endTime))
           throw ArgumentError("Type=weekly: startTime and endTime must be specified");
         //TODO: add logic to the return value when type=weekly
         continue defaultCase;
@@ -302,6 +302,42 @@ class SchoolDaySchedule implements Cloneable{
   @override
   String toString() {
     return "Schedule:$schedule, alternative condition: ${alternativeCondition??defaultAlternativeCondition}";
+  }
+  Widget getScheduleTable(DateTime now){
+    var tableRows = <TableRow>[];
+    for(var i in schedule){
+      var tempStartTime = DateTime(0,0,0,i.startTime.hour,i.startTime.minute);
+      var tempEndTime = DateTime(0,0,0,i.endTime.hour,i.endTime.minute);
+      tableRows.add(
+        TableRow(
+          children: [
+            Container(
+              child: Text(
+                i.alternativeTitle != null && (alternativeCondition ?? defaultAlternativeCondition)(now) ?
+                i.alternativeTitle :
+                i.title,
+              ),
+              padding: EdgeInsets.all(10.0),
+            ),
+            Container(
+              child: Text(
+                DateFormat.Hm().format(tempStartTime) + " - "+ DateFormat.Hm().format(tempEndTime),
+              ),
+              padding: EdgeInsets.all(10.0),
+            ),
+          ]
+        )
+      );
+    }
+    return Container(
+      child: Table(
+        children: tableRows,
+        border: TableBorder.all(),
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      ),
+      //padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.all(10.0),
+    );
   }
 }
 /// A static class for a list of preset schedules.
@@ -755,7 +791,7 @@ class _DateDisplayState extends State<DateDisplay>{
 
   @override
   Widget build(BuildContext context) {
-    var currentDate = DateTime.parse("2019-12-19 09:45:00");//.now();
+    var currentDate = DateTime.now();//parse("2019-12-19 09:45:00");//.now();
     var todaysInfo = schoolCalendar.getInfo(currentDate);
     var currentPeriod = "No Class";
 //    int timeOfDayToInt(int hour,int minute) => hour * 60 + minute;
@@ -811,6 +847,7 @@ class _DetailedCalendar extends State<DetailedCalendar>{
   CalendarController _calendarController;
   Map<DateTime,List> _holidays;
   Widget _holidayWidget;
+  Widget _scheduleWidget;
   //Map<String, SchoolDayInformation> _eventIdentifier;
 
   @override
@@ -820,6 +857,7 @@ class _DetailedCalendar extends State<DetailedCalendar>{
     _calendarController = new CalendarController();
     _holidays = schoolCalendar.getHolidayCalendar();
     _holidayWidget = Container();
+    _scheduleWidget = Container();
     //_eventIdentifier = schoolCalendar.getIdentifierMap;
     //print(_holidays);
   }
@@ -834,6 +872,12 @@ class _DetailedCalendar extends State<DetailedCalendar>{
     setState(() {
       print('Selected ' + date.toString() + ': ');
       print(events);
+      if(schoolCalendar.getInfo(date).schoolDayType == SchoolDayType.schoolDay){
+        var schedule = schoolCalendar.getSchedule(date);
+        _scheduleWidget = schedule.getScheduleTable(date);
+      } else {
+        _scheduleWidget = Container();
+      }
       if(events.length > 0){
         for(var i in events){
           if(i is SchoolDayInformation){
@@ -917,7 +961,8 @@ class _DetailedCalendar extends State<DetailedCalendar>{
   @override
   Widget build(BuildContext context) {
     return new Material(
-        color: Colors.grey[800],
+      color: Colors.grey[800],
+      child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             new Container(
@@ -950,8 +995,11 @@ class _DetailedCalendar extends State<DetailedCalendar>{
 
             _holidayWidget,
 
+            _scheduleWidget,
+
           ],
-        )
+        ),
+      )
     );
   }
 }
