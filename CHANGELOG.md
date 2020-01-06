@@ -8,7 +8,7 @@ Release Date: January 6, 2020
   * Detail upcoming events, holidays, etc.
   * Detail upcoming schedules for schooldays.
 * Added a tag system for the calendar.
-  * Merge Focus and Connect. To use connect instead of focus on a day, add `replaceFocusWithConnect` to the tag of the day.
+  * Merge Focus and Connect. To use connect instead of focus on a day, add `replaceFocusWithConnect` to the tag of the day's entry.
 * Fix a bug where clicking on a holiday in the detailed calendar incorrectly displays a regular schedules.
 * The version number now dynamically updates.
 
