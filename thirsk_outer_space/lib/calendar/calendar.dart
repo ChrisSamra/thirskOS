@@ -67,7 +67,7 @@ class EventDuration{
     currentDate = new DateTime(currentDate.year,currentDate.month,currentDate.day);
     switch(type){
       case DurationType.fromTo:
-        return !((argument1 as DateTime).isAfter(currentDate) || (argument1 as DateTime).isBefore(currentDate));
+        return !((argument1 as DateTime).isAfter(currentDate) || (argument2 as DateTime).isBefore(currentDate));
       case DurationType.singleDay:
         return (argument1 as DateTime).isAtSameMomentAs(currentDate);
       case DurationType.weekly:
@@ -286,7 +286,7 @@ class SchoolDaySchedule implements Cloneable{
       if(replaceAltName && returnVal.schedule[i].alternativeTitle.compareTo(from) == 0){
         returnVal.schedule[i].alternativeTitle = to;
       }
-      print(returnVal.schedule[i].title);
+      //print(returnVal.schedule[i].title);
     }
     return returnVal;
   }
@@ -551,7 +551,7 @@ class SchoolCalendar{
           );
         }
       }
-      print(returnVal);
+      //print(returnVal);
       return returnVal;
     }
     for(var oneEvent in eventLists){
@@ -870,8 +870,9 @@ class _DetailedCalendar extends State<DetailedCalendar>{
   }
   void _onDaySelected(DateTime date, List events){
     setState(() {
-      print('Selected ' + date.toString() + ': ');
-      print(events);
+      //print('Selected ' + date.toString() + ': ');
+      //print(events);
+      //print(schoolCalendar.getInfo(date));
       if(schoolCalendar.getInfo(date).schoolDayType == SchoolDayType.schoolDay){
         var schedule = schoolCalendar.getSchedule(date);
         _scheduleWidget = schedule.getScheduleTable(date);

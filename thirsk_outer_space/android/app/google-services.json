@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "621701322859",
+    "firebase_url": "https://thirsk-os-test.firebaseio.com",
+    "project_id": "thirsk-os-test",
+    "storage_bucket": "thirsk-os-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621701322859:android:1bcbaa78cfd6a2c081792e",
+        "android_client_info": {
+          "package_name": "com.example.thirsk_outer_space"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621701322859-ma7lbjstsoddhdckb8mp6a4vapsv31l5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0CpK4mHTkgNwpSGz7NifI0F6T2y0WhoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621701322859-ma7lbjstsoddhdckb8mp6a4vapsv31l5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
