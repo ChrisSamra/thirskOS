@@ -27,8 +27,8 @@ dependencies:
   sprintf: ^4.0.0
   package_info: ^0.4.0
   flutter_markdown: ^0.3.2
-  #flutter_calendar_carousel: ^1.4.8
   table_calendar: ^2.2.1
+  firebase_messaging: ^6.0.9
   flutter:
     sdk: flutter
 
