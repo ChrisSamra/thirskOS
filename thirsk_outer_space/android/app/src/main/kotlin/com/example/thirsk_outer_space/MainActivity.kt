@@ -1,4 +1,4 @@
-package com.example.thirsk_outer_space
+package com.rths.thirskOS
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
