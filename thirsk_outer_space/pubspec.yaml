@@ -59,9 +59,12 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
+    # Tab icons.
     - assets/event.png
     - assets/home.png
     - assets/thrive.png
+    - assets/settings.png
+    #
     - assets/title.png
     - assets/tn.png
     - assets/cometslogo.png

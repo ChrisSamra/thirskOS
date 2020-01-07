@@ -38,6 +38,10 @@ class NavigationButton extends StatelessWidget{
 class ThriveButton extends StatelessWidget{
   /// The text to be displayed on the button.
   final String buttonName;
+  /// The child widget inside this button if not null.
+  /// 
+  /// If both this variable and [buttonName] are specified, this variable is used instead.
+  final Widget child;
   /// The color to be filled in the button.
   final Color fillColor;
   /// Action to take when the button is pressed.
@@ -45,10 +49,15 @@ class ThriveButton extends StatelessWidget{
 
   ThriveButton({
     Key key,
-    @required this.buttonName,
+    this.buttonName,
+    this.child,
     this.fillColor,
-    @required this.onPressed
-  }) : super(key: key);
+    @required this.onPressed,
+  }) : super(key: key){
+    if(buttonName == null && child == null){
+      throw ArgumentError("Error: buttonName or child must be specified.");
+    }
+  }
   @override
   Widget build(BuildContext context){
     return new RawMaterialButton(  //creates button
