@@ -817,12 +817,7 @@ class _DateDisplayState extends State<DateDisplay>{
       children: <Widget>[
         Text(
           new DateFormat("| EEEE | MMM d | yyyy |").format(currentDate,),
-          style: new TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-              letterSpacing: 4,
-              fontFamily: 'LEMONMILKLIGHT'
-          ),
+          style: Theme.of(context).textTheme.subtitle,
           textAlign: TextAlign.center,
         ),
         //TODO: Make the button cooler
@@ -974,7 +969,6 @@ class _DetailedCalendar extends State<DetailedCalendar>{
   @override
   Widget build(BuildContext context) {
     return new Material(
-      color: Colors.grey[800],
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[

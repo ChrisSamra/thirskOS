@@ -183,7 +183,6 @@ class OneEventPostDetail extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Colors.grey[800],
         child: Container(
           child: Column(
             children: <Widget>[

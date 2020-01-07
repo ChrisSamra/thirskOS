@@ -90,7 +90,7 @@ class DiplomaPage extends StatelessWidget{   //Built in page for Exam Resources
 
   @override
   Widget build(BuildContext context) {
-    return new Material( color: Colors.grey[800], child: Column(
+    return new Material(child: Column(
       children: <Widget>[
 
         new Container(
@@ -171,7 +171,7 @@ class CtsPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return new Material( color: Colors.grey[800], child: Column(
+    return new Material(child: Column(
       children: <Widget>[
 
         new Container(
@@ -245,7 +245,7 @@ class SportsPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return new Material( color: Colors.grey[800], child: Column(
+    return new Material(child: Column(
       children: <Widget>[
 
         Container(

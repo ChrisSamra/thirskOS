@@ -91,25 +91,25 @@ class MyApp extends StatelessWidget {
                       finalColor: Colors.purple,
                     ),
                     padding: EdgeInsets.all(10),
-                    color: Colors.grey[800],
+                    color: Theme.of(context).primaryColor,
                   ),
 
                   new Container(
                     child: new HomePage(),
                     padding: EdgeInsets.all(10),
-                    color: Colors.grey[800],
+                    color: Theme.of(context).primaryColor,
                   ),
 
                   new Container(
                     child: new EventPage(),
                     padding: EdgeInsets.all(10),
-                    color: Colors.grey[800],
+                    color: Theme.of(context).primaryColor,
                   ),
 
                   new Container(
                     child: new SettingsPage(),
                     padding: EdgeInsets.all(10),
-                    color: Colors.grey[800],
+                    color: Theme.of(context).primaryColor,
                   ),
                   //containers of the three pages
 
@@ -144,11 +144,37 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-
-      //theme: ThemeData(fontFamily: 'LEMONMILKLIGHT'),
-      theme: ThemeData(textTheme: TextTheme(
-          body1: TextStyle(fontSize: 14,color: Colors.white)
-      )),
+      /// This part defines the general theme of the app.
+      /// If possible, this should be used from the app rather than redefining a new theme for text.
+      theme: ThemeData(
+        textTheme: TextTheme(
+          body1: TextStyle(
+            fontSize: 14,
+          ),
+          headline: TextStyle(
+            fontSize: 36.0,
+            fontFamily: 'ROCK',
+          ),
+          title: TextStyle(
+            fontSize: 30.0,
+            fontFamily: 'ROCK',
+          ),
+          subhead: TextStyle(
+            fontSize: 24.0,
+            fontFamily: 'ROCK',
+          ),
+          subtitle: TextStyle(
+            fontSize: 16,
+            letterSpacing: 4,
+            fontFamily: 'LEMONMILKLIGHT'
+          ),
+          caption: TextStyle(
+            fontSize: 10,
+          ),
+        ).apply(bodyColor: Colors.white),
+        primaryColor: Colors.grey[800],
+        primaryColorDark: Colors.grey[800],
+      ),
     );
   }
 } //Skeleton of the UI

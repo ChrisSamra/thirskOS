@@ -3,6 +3,7 @@ import 'package:thirsk_outer_space/general/common_widgets.dart';
 import 'package:thirsk_outer_space/general/general_functions.dart';
 import 'package:thirsk_outer_space/strings/string_getter.dart';
 import 'package:thirsk_outer_space/general/version_number.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class SettingsPage extends StatelessWidget{
 
@@ -17,10 +18,10 @@ class SettingsPage extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Icon(Icons.info),
-                Text("Aboot"),
+                Text("About"),
               ],
             ),
-            onPressed: ()=>{},
+            onPressed: () => goToPage(context, AboutPage()),
           ),
           Container(height: 5.0,),
           ThriveButton(
@@ -38,6 +39,16 @@ class SettingsPage extends StatelessWidget{
               children: <Widget>[
                 Icon(Icons.access_time),
                 Text("Changelog"),
+              ],
+            ),
+            onPressed: ()=>{},
+          ),
+          Container(height: 5.0,),
+          ThriveButton(
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.feedback),
+                Text("Feedback"),
               ],
             ),
             onPressed: ()=>{},
@@ -64,7 +75,6 @@ class CreditPage extends StatelessWidget{  //Development credits page
   @override
   Widget build(BuildContext context) {
     return new Material(
-      color: Colors.grey[800],
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -103,7 +113,7 @@ class CreditPage extends StatelessWidget{  //Development credits page
 
             new Text(
               "${getString('credit/version')}: ${appInfo.version}" +
-                (appInfo.buildNumber != null && appInfo.buildNumber != "" ? "+${appInfo.version}" : ""),
+                (appInfo.buildNumber != null && appInfo.buildNumber != "" ? "+${appInfo.buildNumber}" : ""),
               style: new TextStyle(
                 fontFamily: 'ROCK',
                 fontSize: 12,
@@ -156,6 +166,54 @@ class CreditPage extends StatelessWidget{  //Development credits page
               textAlign: TextAlign.left,
               style: TextStyle(color: Colors.white, fontSize: 14),
 
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+} //Dev Credits Page
+
+/// The page that displays the people who made this app
+class AboutPage extends StatelessWidget{  //Development credits page
+  @override
+  Widget build(BuildContext context) {
+    return new Material(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 30.0,
+
+            ),
+
+            PreviousPageButton(),
+            //back button to return to previous page
+
+            Container(height: 20.0,),
+
+            Image(
+              image: new AssetImage('assets/icf.png'),
+              height: 160,
+            ),
+            
+            Container(
+              child: MarkdownBody(
+                data: getString('settings/about/body_text'),
+                /*styleSheet: MarkdownStyleSheet(
+                  h1: TextStyle(
+                    fontSize: 36.0,
+                    color: Colors.white,
+                    fontFamily: 'ROCK',
+                  ),
+                  h2: TextStyle(
+                    fontSize: 24.0,
+                    color: Colors.white,
+                    fontFamily: 'ROCK',
+                  ),
+                ),*/
+              ),
+              margin: EdgeInsets.all(20.0),
             ),
           ],
         ),
