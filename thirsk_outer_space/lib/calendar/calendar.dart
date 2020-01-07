@@ -662,10 +662,22 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
           duration: EventDuration(DurationType.singleDay,DateTime(2020,1,6)),
       ),
       SchoolDayInformation(
+        schoolDayType: SchoolDayType.nonInstructional,
+        title: getString('calendar/break/exam_break'),
+        greeting: getString('calendar/break/exam_break/greeting'),
+        duration: EventDuration(DurationType.fromTo,DateTime(2020,1,13),DateTime(2020,1,30)),
+      ),
+      SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
           duration: EventDuration(DurationType.singleDay,DateTime(2020,1,31)),
+      ),
+      SchoolDayInformation(
+          schoolDayType: SchoolDayType.schoolDay,
+          title: getString('calendar/resume_class'),
+          greeting: getString('calendar/resume_class/greeting'),
+          duration: EventDuration(DurationType.singleDay,DateTime(2020,2,3)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
