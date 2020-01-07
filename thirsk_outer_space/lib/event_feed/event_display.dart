@@ -116,8 +116,8 @@ class OneEventPost extends StatelessWidget{
       return Container(
         child: Column(
           children: <Widget>[
-            Text("Error", style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK', color: Colors.white),),
-            Text("Unacceptable json format. Press 'F' to pay respect.", style: TextStyle(fontSize: 12, fontFamily: 'ROCK', color: Colors.white),),
+            Text("Error", style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK',),),
+            Text("Unacceptable json format. Press 'F' to pay respect.", style: TextStyle(fontSize: 12, fontFamily: 'ROCK',),),
             Text(""),
             Row(
               children: <Widget>[
@@ -141,13 +141,13 @@ class OneEventPost extends StatelessWidget{
         child: RawMaterialButton(
           child: Column(
             children: <Widget>[
-              Text(postData.title, style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK', color: Colors.white),),
+              Text(postData.title, style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK',),),
 
               Text(
                 //takes post content searches for links and makes them clickable
                 //onOpen: (link) async => launchURL(link.url),
                 truncateString(postData.postContent.replaceAll('#039;', '\'')), //replaces html code for ' with ' character
-                style: TextStyle(fontSize: 12, fontFamily: 'ROCK', color: Colors.white),
+                style: TextStyle(fontSize: 12, fontFamily: 'ROCK',),
                 //linkStyle: TextStyle(color: Colors.black),
               ),
 
@@ -155,8 +155,8 @@ class OneEventPost extends StatelessWidget{
               Row(
                 children: <Widget>[
                   Text(""),
-                  //Text(postData.name, style: TextStyle(fontSize: 12, color: Colors.white),), not working properly (spits out "Array") (probably a backend issue
-                  Text(postData.deltaTimeDisplay, style: TextStyle(fontSize: 12, color: Colors.white),),
+                  //Text(postData.name, style: TextStyle(fontSize: 12,),), //not working properly (spits out "Array") (probably a backend issue
+                  Text(postData.deltaTimeDisplay, style: TextStyle(fontSize: 12,),),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               )
@@ -183,47 +183,48 @@ class OneEventPostDetail extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(height: 30.0,),
+      color: Theme.of(context).backgroundColor,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Container(height: 30.0,),
 
-              PreviousPageButton(),
+            PreviousPageButton(),
 
-              Container(height: 20.0,),
+            Container(height: 20.0,),
 
-              Text(
-                postData.title,
-                style: TextStyle(fontSize: 28.0, fontFamily: 'ROCK', color: Colors.white),
-                textAlign: TextAlign.center,
+            Text(
+              postData.title,
+              style: TextStyle(fontSize: 28.0, fontFamily: 'ROCK',),
+              textAlign: TextAlign.center,
+            ),
+
+            //Container(height: 10.0,),
+
+            Row(
+              children: <Widget>[
+                Text("by " + postData.name),
+                Text(postData.postDateReadable),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Divider(color: Colors.white,),
+            Container(
+              width:double.infinity,
+              child: Linkify(
+                //takes post content searches for links and makes them clickable
+                onOpen: (link) async => launchURL(link.url),
+                text: postData.postContent.replaceAll('#039;', '\''), //replaces html code for ' with ' character
+                style: TextStyle(fontSize: 16, fontFamily: 'ROCK',),
+                linkStyle: TextStyle(color: Colors.blue[800]),
+                textAlign: TextAlign.left,
               ),
+            ),
 
-              //Container(height: 10.0,),
-
-              Row(
-                children: <Widget>[
-                  Text("by " + postData.name),
-                  Text(postData.postDateReadable),
-                ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              ),
-              Divider(color: Colors.white,),
-              Container(
-                width:double.infinity,
-                child: Linkify(
-                  //takes post content searches for links and makes them clickable
-                  onOpen: (link) async => launchURL(link.url),
-                  text: postData.postContent.replaceAll('#039;', '\''), //replaces html code for ' with ' character
-                  style: TextStyle(fontSize: 16, fontFamily: 'ROCK', color: Colors.white),
-                  linkStyle: TextStyle(color: Colors.blue[800]),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-
-            ],
-          ),
-          margin: EdgeInsets.only(left:10.0,right:10.0),
-        )
+          ],
+        ),
+        margin: EdgeInsets.only(left:10.0,right:10.0),
+      ),
     );
   }
 }
@@ -273,7 +274,7 @@ class _AllEventPostsState extends State<AllEventPosts>{
             return Column(
               children: <Widget>[
                 CircularProgressIndicator(),
-                Text(getString('misc/loading'), style: TextStyle(color: Colors.white),),
+                Text(getString('misc/loading')),
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
             );

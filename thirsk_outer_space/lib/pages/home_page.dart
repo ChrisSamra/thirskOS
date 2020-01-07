@@ -44,7 +44,6 @@ class HomePage extends StatelessWidget{
           getString('lunch/menu_prompt'),
           style: new TextStyle(
               fontSize: 22,
-              color: Colors.white,
               fontFamily: 'LEMONMILKLIGHT',
               letterSpacing: 4
           ),

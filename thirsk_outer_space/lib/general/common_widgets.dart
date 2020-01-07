@@ -64,7 +64,6 @@ class ThriveButton extends StatelessWidget{
       child: child ?? Text(
         buttonName,
         style: TextStyle(
-          color: Colors.white,
           fontFamily: 'LEMONMILKLIGHT',
           fontSize: 18,
           letterSpacing: 4
@@ -93,7 +92,7 @@ class PreviousPageButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-      child: Text(text ?? getString('misc/back'), style: TextStyle(color: Colors.white, fontSize: 18,),),
+      child: Text(text ?? getString('misc/back'), style: TextStyle(fontSize: 18,),),
       shape: StadiumBorder(),
       highlightColor: Color(0x0083ff),
       padding: EdgeInsets.all(5),

@@ -54,12 +54,7 @@ class ThrivePage extends StatelessWidget{  //Thrive Page
 
       new Text(
         getString('thrive/thrive_prompt'),
-        style: new TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-          fontFamily: 'LEMONMILKLIGHT',
-          letterSpacing: 4,
-        ),
+        style: Theme.of(context).textTheme.subtitle,
         textAlign: TextAlign.center,
       ),
 
@@ -90,79 +85,81 @@ class DiplomaPage extends StatelessWidget{   //Built in page for Exam Resources
 
   @override
   Widget build(BuildContext context) {
-    return new Material(child: Column(
-      children: <Widget>[
+    return new Material(
+      color: Theme.of(context).backgroundColor,
+      child: Column(
+        children: <Widget>[
 
-        new Container(
-          height: 30.0,
+          new Container(
+            height: 30.0,
 
-        ),
+          ),
 
-        new PreviousPageButton(),
+          new PreviousPageButton(),
 
-        new Container(
-          height: 20.0,
+          new Container(
+            height: 20.0,
 
-        ),
+          ),
 
-        new ThriveButton(
-          buttonName: 'EXAM SCHEDULE',
-          fillColor: Colors.indigo,
-          onPressed: ()=>launchURL(esURL),
-        ),
+          new ThriveButton(
+            buttonName: 'EXAM SCHEDULE',
+            fillColor: Colors.indigo,
+            onPressed: ()=>launchURL(esURL),
+          ),
 
-        new Container(
-          height: 15.0,
+          new Container(
+            height: 15.0,
 
-        ),
+          ),
 
-        new Text(
-          "Resources:",
-          style: new TextStyle(
+          new Text(
+            "Resources:",
+            style: new TextStyle(
               fontFamily: 'ROCK',
               fontSize: 24,
-              color: Colors.white,
-              letterSpacing: 2
+              letterSpacing: 2,
+            ),
           ),
-        ),
 
-        new Container(
-          height: 10.0,
+          new Container(
+            height: 10.0,
 
-        ),
+          ),
 
-        new ThriveButton(
-          buttonName: 'FINAL GRADE CALCULATOR',
-          fillColor: Colors.indigo,
-          onPressed: (){launchURL(fgcURL);},
-        ),
+          new ThriveButton(
+            buttonName: 'FINAL GRADE CALCULATOR',
+            fillColor: Colors.indigo,
+            onPressed: (){launchURL(fgcURL);},
+          ),
 
-        new Container(
-          height: 2.0,
-        ),
+          new Container(
+            height: 2.0,
+          ),
 
-        new ThriveButton(
-          buttonName: 'ALBERTA DIPLOMA PREP COURSES',
-          fillColor: Colors.indigo,
-          onPressed: (){launchURL(adpURL);},
-        ),
-        new Container(
-          height: 2.0,
-        ),
-        new ThriveButton(
-          buttonName: 'EXAMPLARS AND PRACTICE FROM PREVIOUS DIPLOMAS',
-          fillColor: Colors.indigo,
-          onPressed: (){launchURL(expcURL);},
-        ),
+          new ThriveButton(
+            buttonName: 'ALBERTA DIPLOMA PREP COURSES',
+            fillColor: Colors.indigo,
+            onPressed: (){launchURL(adpURL);},
+          ),
+          new Container(
+            height: 2.0,
+          ),
+          new ThriveButton(
+            buttonName: 'EXAMPLARS AND PRACTICE FROM PREVIOUS DIPLOMAS',
+            fillColor: Colors.indigo,
+            onPressed: (){launchURL(expcURL);},
+          ),
 
-        new Text(
-          getString('misc/under_construction'),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 10),
-        ),
+          new Text(
+            getString('misc/under_construction'),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.caption,
+          ),
 
-      ],
-    ),);
+        ],
+      ),
+    );
   }
 } //Exam Resources Page
 
@@ -171,72 +168,72 @@ class CtsPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return new Material(child: Column(
-      children: <Widget>[
+    return new Material(
+      color: Theme.of(context).backgroundColor,
+      child: Column(
+        children: <Widget>[
 
-        new Container(
-          height: 30.0,
+          new Container(
+            height: 30.0,
 
-        ),
-
-        new PreviousPageButton(),
-
-        new Image(
-          image: new AssetImage('assets/cometslogo.png'),
-          alignment: new Alignment(-0.87, -0.87),
-          width: 270,
-        ),
-
-        new Text(
-          "CAREER TECHNOLOGY STUDIES",
-          textAlign: TextAlign.center,
-          style: new TextStyle(
-            fontFamily: 'ROCK',
-            letterSpacing: 6,
-            fontSize: 20,
-            color: Colors.white,
           ),
-        ),
 
-        new Container(
-          height: 10.0,
+          new PreviousPageButton(),
 
-        ),
+          new Image(
+            image: new AssetImage('assets/cometslogo.png'),
+            alignment: new Alignment(-0.87, -0.87),
+            width: 270,
+          ),
 
-        new Image(
-          image: new AssetImage('assets/m1.png'),
-          alignment: new Alignment(-0.87, -0.87),
-          width: 350,
-        ),
+          new Text(
+            "CAREER TECHNOLOGY STUDIES",
+            textAlign: TextAlign.center,
+            style: new TextStyle(
+              fontFamily: 'ROCK',
+              letterSpacing: 6,
+              fontSize: 20,
+            ),
+          ),
 
-        new Image(
-          image: new AssetImage('assets/m2.png'),
-          alignment: new Alignment(-0.87, -0.87),
-          width: 350,
-        ),
+          new Container(
+            height: 10.0,
 
-        new Image(
-          image: new AssetImage('assets/m3.png'),
-          alignment: new Alignment(-0.87, -0.87),
-          width: 350,
-        ),
-        //placeholder images promoting CTS, they can be removed and replaced with more detailed/accurate info next year
+          ),
 
-        new Container(
-          height: 20.0,
+          new Image(
+            image: new AssetImage('assets/m1.png'),
+            alignment: new Alignment(-0.87, -0.87),
+            width: 350,
+          ),
 
-        ),
+          new Image(
+            image: new AssetImage('assets/m2.png'),
+            alignment: new Alignment(-0.87, -0.87),
+            width: 350,
+          ),
 
-        new Text(
-          getString('misc/under_construction'),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 10),
-        ),
+          new Image(
+            image: new AssetImage('assets/m3.png'),
+            alignment: new Alignment(-0.87, -0.87),
+            width: 350,
+          ),
+          //placeholder images promoting CTS, they can be removed and replaced with more detailed/accurate info next year
 
+          new Container(
+            height: 20.0,
 
+          ),
 
-      ],
-    ),);
+          new Text(
+            getString('misc/under_construction'),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.caption,
+          ),
+
+        ],
+      ),
+    );
   }
 }  //CTS Page
 
@@ -245,51 +242,57 @@ class SportsPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return new Material(child: Column(
-      children: <Widget>[
+    return new Material(
+      color: Theme.of(context).backgroundColor,
+      child: Column(
+        children: <Widget>[
 
-        Container(
-          height: 30.0,
-        ),
-        
-        PreviousPageButton(),
-        
-        Image(image: new AssetImage('assets/cometslogo.png'), alignment: new Alignment(-0.87, -0.87), width: 325,),
-        
-        Container(
-          height: 10.0,
+          Container(
+            height: 30.0,
+          ),
+          
+          PreviousPageButton(),
+          
+          Image(image: new AssetImage('assets/cometslogo.png'), alignment: new Alignment(-0.87, -0.87), width: 325,),
+          
+          Container(
+            height: 10.0,
 
-        ),
+          ),
 
 
-        Text("ATHLETICS", style: new TextStyle( fontFamily: 'ROCK', letterSpacing: 6, fontSize: 30, color: Colors.white,),),
+          Text("ATHLETICS", style: new TextStyle( fontFamily: 'ROCK', letterSpacing: 6, fontSize: 30,),),
 
-        Container(
-          height: 20.0,
+          Container(
+            height: 20.0,
 
-        ),
+          ),
 
-        Text("Team Games Schedule:", style: new TextStyle( fontFamily: 'ROCK', fontSize: 20, color: Colors.white, letterSpacing: 2),),
+          Text("Team Games Schedule:", style: new TextStyle( fontFamily: 'ROCK', fontSize: 20, letterSpacing: 2),),
 
-        Container(
-          height: 10.0,
+          Container(
+            height: 10.0,
 
-        ),
+          ),
 
-        ThriveButton(
-          buttonName:'CALGARY SENIOR HIGH SCHOOL ATHLETIC ASSOCIATION',
-          fillColor: Colors.indigo,
-          onPressed: ()=>launchURL(chssURL),
-        ),
+          ThriveButton(
+            buttonName:'CALGARY SENIOR HIGH SCHOOL ATHLETIC ASSOCIATION',
+            fillColor: Colors.indigo,
+            onPressed: ()=>launchURL(chssURL),
+          ),
 
-        Container(
-          height: 20.0,
+          Container(
+            height: 20.0,
 
-        ),
+          ),
 
-        Text(getString('misc/under_construction'), textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 10),),
-
-      ],
-    ),);
+          Text(
+            getString('misc/under_construction'),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ],
+      ),
+    );
   }
 } //Athletics Page

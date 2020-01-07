@@ -75,6 +75,7 @@ class CreditPage extends StatelessWidget{  //Development credits page
   @override
   Widget build(BuildContext context) {
     return new Material(
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -129,10 +130,10 @@ class CreditPage extends StatelessWidget{  //Development credits page
             new Text(
               getString('credit/2018/header'),
               style: new TextStyle(
-                  fontFamily: 'ROCK',
-                  fontSize: 22,
-                  color: Colors.white,
-                  letterSpacing: 2),
+                fontFamily: 'ROCK',
+                fontSize: 22,
+                letterSpacing: 2,
+              ),
             ),
 
             new Container(
@@ -143,17 +144,15 @@ class CreditPage extends StatelessWidget{  //Development credits page
             new Text(
               getString('credit/2018/credit'),
               textAlign: TextAlign.left,
-              style: TextStyle(color: Colors.white, fontSize: 14),
-
             ),
             new Container(height:20.0),
             new Text(
               getString('credit/2019/header'),
               style: new TextStyle(
-                  fontFamily: 'ROCK',
-                  fontSize: 22,
-                  color: Colors.white,
-                  letterSpacing: 2),
+                fontFamily: 'ROCK',
+                fontSize: 22,
+                letterSpacing: 2,
+              ),
             ),
 
             new Container(
@@ -164,8 +163,6 @@ class CreditPage extends StatelessWidget{  //Development credits page
             new Text(
               getString('credit/2019/credit'),
               textAlign: TextAlign.left,
-              style: TextStyle(color: Colors.white, fontSize: 14),
-
             ),
           ],
         ),
@@ -179,6 +176,7 @@ class AboutPage extends StatelessWidget{  //Development credits page
   @override
   Widget build(BuildContext context) {
     return new Material(
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -200,18 +198,6 @@ class AboutPage extends StatelessWidget{  //Development credits page
             Container(
               child: MarkdownBody(
                 data: getString('settings/about/body_text'),
-                /*styleSheet: MarkdownStyleSheet(
-                  h1: TextStyle(
-                    fontSize: 36.0,
-                    color: Colors.white,
-                    fontFamily: 'ROCK',
-                  ),
-                  h2: TextStyle(
-                    fontSize: 24.0,
-                    color: Colors.white,
-                    fontFamily: 'ROCK',
-                  ),
-                ),*/
               ),
               margin: EdgeInsets.all(20.0),
             ),

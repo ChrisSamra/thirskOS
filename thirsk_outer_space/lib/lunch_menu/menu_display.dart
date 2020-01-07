@@ -119,7 +119,7 @@ List<Widget> displayData(WeekMenu displayMenu){
     var today=DateTime.parse(dayEntry.menuDate);
     oneEntryDisplay.add(Text(
       '${DateFormat("EEEE, LLL d").format(today)}',
-      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: Colors.white, letterSpacing: 4, fontFamily: 'LEMONMILKLIGHT' ),
+      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, letterSpacing: 4, fontFamily: 'LEMONMILKLIGHT' ),
       textAlign: TextAlign.center,
     ),
     );
@@ -129,7 +129,7 @@ List<Widget> displayData(WeekMenu displayMenu){
           oneEntryDisplay.add(Text(
             // i used replace all to replace the html code for an apostrophe with one so it doesn't look weird
             '$entryLabel: ${entryName.replaceAll('#039;', '\'')}(CAD\$$cost)',//sprintf('%s: %s(CAD\$%s)',[entryLabel,entryName.replaceAll('#039;', '\''),cost]),
-            style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
+            //style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
             textAlign: TextAlign.center,
           ),
           );
@@ -137,7 +137,7 @@ List<Widget> displayData(WeekMenu displayMenu){
           oneEntryDisplay.add(Text(
             // i used replace all to replace the html code for an apostrophe with one so it doesn't look weird
             '$entryLabel: ${entryName.replaceAll('#039;', '\'')}',
-            style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
+            //style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
             textAlign: TextAlign.center,
           ),
           );
@@ -153,7 +153,7 @@ List<Widget> displayData(WeekMenu displayMenu){
       oneEntryDisplay.add(Text(
         getString('lunch/entry/no_item'),
         //'Entree: ${dayEntry.entree.replaceAll('#039;', '\'')}(CAD\$${dayEntry.entreeCost})',
-        style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
+        //style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
         textAlign: TextAlign.center,
       )
       );
@@ -257,7 +257,6 @@ class _MenuDisplayState extends State<MenuDisplay> {
                   <Widget>[
                     Text(
                       getString('lunch/no_entry'),
-                      style: new TextStyle(fontSize: 14, color: Colors.white,),
                       textAlign: TextAlign.center,
                     ),
                   ]
@@ -284,7 +283,7 @@ class _MenuDisplayState extends State<MenuDisplay> {
             return Column(
               children: <Widget>[
                 CircularProgressIndicator(),
-                Text(getString('misc/loading'), style: TextStyle(color: Colors.white)),
+                Text(getString('misc/loading')),
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
             );

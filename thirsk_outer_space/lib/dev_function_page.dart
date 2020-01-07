@@ -6,7 +6,7 @@ class MarkdownTest extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Color(0xff424242),
+      color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           PreviousPageButton(),

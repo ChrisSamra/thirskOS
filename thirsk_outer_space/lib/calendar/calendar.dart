@@ -822,7 +822,7 @@ class _DateDisplayState extends State<DateDisplay>{
         ),
         //TODO: Make the button cooler
         RawMaterialButton(
-          child: Icon(Icons.assignment,color: Colors.white,),//Text(getString('calendar/view_detail'), style: TextStyle(color: Colors.white, fontSize: 18,),),
+          child: Icon(Icons.assignment,color: Colors.white,),
           shape: CircleBorder(),
           highlightColor: Color(0x0083ff),
           padding: EdgeInsets.all(5),
@@ -969,6 +969,7 @@ class _DetailedCalendar extends State<DetailedCalendar>{
   @override
   Widget build(BuildContext context) {
     return new Material(
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[

@@ -58,89 +58,88 @@ class MyApp extends StatelessWidget {
     getAppInfo();
     return new MaterialApp(
       title: "thirskOS",
-      color: Colors.grey,
+      color: Theme.of(context).backgroundColor,
 
       home: Builder(
         builder: (context) => DefaultTabController(
           initialIndex: 1,
           length: 4,
-
           child: new Scaffold(
-              body: TabBarView(
-                children: [
-                  new Container(
-                    child: new ThrivePage(
-                      buttons: <ThriveButtonData>[
-                        ThriveButtonData('CLUBS',(){launchURL(clubURL);}),
-                        ThriveButtonData('FINE ARTS',(){launchURL(faURL);}),
-                        ThriveButtonData('CTS',(){goToPage(context, CtsPage());}),
-                        ThriveButtonData('SPORTS',(){goToPage(context, SportsPage());}),
-                        ThriveButtonData('THE DOCK',(){launchURL(dockURL);}),
-                        ThriveButtonData('EDVENTURE',(){launchURL(edURL);}),
-                        ThriveButtonData('CONNECT NEWSLETTER',(){launchURL(connectURL);}),
-                        ThriveButtonData('TEACHER CONTACT LIST',(){launchURL(staffURL);}),
-                        ThriveButtonData('CAREER OPPOTUNITY',(){launchURL(coURL);}),
-                        ThriveButtonData('SCHOLARSHIP',(){launchURL(scholarURL);}),
-                        ThriveButtonData('DIPLOMA EXAMS',(){goToPage(context, DiplomaPage());}),
-                        ThriveButtonData('GRADUATION',(){launchURL(gradURL);}),
-                        ThriveButtonData('POSTSECONDARY',(){launchURL(psURL);}),
-                        ThriveButtonData('SECRET OPTIONS',(){goToPage(context, MarkdownTest());}),
+            body: TabBarView(
+              children: [
+                new Container(
+                  child: new ThrivePage(
+                    buttons: <ThriveButtonData>[
+                      ThriveButtonData('CLUBS',(){launchURL(clubURL);}),
+                      ThriveButtonData('FINE ARTS',(){launchURL(faURL);}),
+                      ThriveButtonData('CTS',(){goToPage(context, CtsPage());}),
+                      ThriveButtonData('SPORTS',(){goToPage(context, SportsPage());}),
+                      ThriveButtonData('THE DOCK',(){launchURL(dockURL);}),
+                      ThriveButtonData('EDVENTURE',(){launchURL(edURL);}),
+                      ThriveButtonData('CONNECT NEWSLETTER',(){launchURL(connectURL);}),
+                      ThriveButtonData('TEACHER CONTACT LIST',(){launchURL(staffURL);}),
+                      ThriveButtonData('CAREER OPPOTUNITY',(){launchURL(coURL);}),
+                      ThriveButtonData('SCHOLARSHIP',(){launchURL(scholarURL);}),
+                      ThriveButtonData('DIPLOMA EXAMS',(){goToPage(context, DiplomaPage());}),
+                      ThriveButtonData('GRADUATION',(){launchURL(gradURL);}),
+                      ThriveButtonData('POSTSECONDARY',(){launchURL(psURL);}),
+                      ThriveButtonData('SECRET OPTIONS',(){goToPage(context, MarkdownTest());}),
 
-                      ],
-                      initColor: Colors.lightBlue[300],
-                      finalColor: Colors.purple,
-                    ),
-                    padding: EdgeInsets.all(10),
-                    color: Theme.of(context).primaryColor,
+                    ],
+                    initColor: Colors.lightBlue[300],
+                    finalColor: Colors.purple,
                   ),
+                  padding: EdgeInsets.all(10),
+                  color: Theme.of(context).backgroundColor,
+                ),
 
-                  new Container(
-                    child: new HomePage(),
-                    padding: EdgeInsets.all(10),
-                    color: Theme.of(context).primaryColor,
-                  ),
+                new Container(
+                  child: new HomePage(),
+                  padding: EdgeInsets.all(10),
+                  color: Theme.of(context).backgroundColor,
+                ),
 
-                  new Container(
-                    child: new EventPage(),
-                    padding: EdgeInsets.all(10),
-                    color: Theme.of(context).primaryColor,
-                  ),
+                new Container(
+                  child: new EventPage(),
+                  padding: EdgeInsets.all(10),
+                  color: Theme.of(context).backgroundColor,
+                ),
 
-                  new Container(
-                    child: new SettingsPage(),
-                    padding: EdgeInsets.all(10),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  //containers of the three pages
+                new Container(
+                  child: new SettingsPage(),
+                  padding: EdgeInsets.all(10),
+                  color: Theme.of(context).backgroundColor,
+                ),
+                //containers of the three pages
 
-                ],
-              ),
-              bottomNavigationBar: new TabBar( //creates bottom navigation bar
-                tabs: [
-                  Tab(
-                    child: new NavigationButton(buttonImage: 'assets/thrive.png', buttonText: getString('thrive/button')),
-                  ),
+              ],
+            ),
+            bottomNavigationBar: new TabBar( //creates bottom navigation bar
+              tabs: [
+                Tab(
+                  child: new NavigationButton(buttonImage: 'assets/thrive.png', buttonText: getString('thrive/button')),
+                ),
 
-                  Tab(
-                    child: new NavigationButton(buttonImage: 'assets/home.png', buttonText: getString('home/button')),
-                  ),
+                Tab(
+                  child: new NavigationButton(buttonImage: 'assets/home.png', buttonText: getString('home/button')),
+                ),
 
-                  Tab(
-                    child: new NavigationButton(buttonImage: 'assets/event.png', buttonText: getString('event/button')),
-                  ),
+                Tab(
+                  child: new NavigationButton(buttonImage: 'assets/event.png', buttonText: getString('event/button')),
+                ),
 
-                  Tab(
-                    child: new NavigationButton(buttonImage: 'assets/settings.png', buttonText: getString('settings/button')),
-                  ),
-                ],
-                //labelColor: Colors.blue,
-                //unselectedLabelColor: Colors.white,
-                indicatorSize: TabBarIndicatorSize.label,
-                labelPadding: EdgeInsets.all(20),
-                indicatorPadding: EdgeInsets.all(6.0),
-                indicatorColor: Colors.white,
-              ),
-              backgroundColor: Colors.grey[850]// Color(0xFF2D2D2D), //app background colour
+                Tab(
+                  child: new NavigationButton(buttonImage: 'assets/settings.png', buttonText: getString('settings/button')),
+                ),
+              ],
+              //labelColor: Colors.blue,
+              //unselectedLabelColor: Colors.white,
+              indicatorSize: TabBarIndicatorSize.label,
+              labelPadding: EdgeInsets.all(20),
+              indicatorPadding: EdgeInsets.all(6.0),
+              indicatorColor: Colors.white,
+            ),
+            backgroundColor: Theme.of(context).bottomAppBarColor,// Color(0xFF2D2D2D), //app background colour
           ),
         ),
       ),
@@ -148,32 +147,39 @@ class MyApp extends StatelessWidget {
       /// If possible, this should be used from the app rather than redefining a new theme for text.
       theme: ThemeData(
         textTheme: TextTheme(
+          // The default text style. Used throughout the application
           body1: TextStyle(
             fontSize: 14,
+            fontFamily: 'ROCK'
           ),
           headline: TextStyle(
-            fontSize: 36.0,
+            fontSize: 36,
             fontFamily: 'ROCK',
           ),
           title: TextStyle(
-            fontSize: 30.0,
+            fontSize: 30,
             fontFamily: 'ROCK',
           ),
           subhead: TextStyle(
-            fontSize: 24.0,
+            fontSize: 24,
             fontFamily: 'ROCK',
           ),
+          // Used in the front pages, under "ThirskOS" logo.
           subtitle: TextStyle(
             fontSize: 16,
             letterSpacing: 4,
             fontFamily: 'LEMONMILKLIGHT'
           ),
-          caption: TextStyle(
-            fontSize: 10,
+          // Used in the numerous "Under Contruction" text in subpages. Also in other smaller texts.
+          body2: TextStyle(
+            fontSize: 12,
+            fontFamily: 'ROCK',
           ),
-        ).apply(bodyColor: Colors.white),
-        primaryColor: Colors.grey[800],
-        primaryColorDark: Colors.grey[800],
+        ).apply(
+          bodyColor: Colors.white,
+        ),
+        backgroundColor: Colors.grey[800],
+        bottomAppBarColor: Colors.grey[850],
       ),
     );
   }
