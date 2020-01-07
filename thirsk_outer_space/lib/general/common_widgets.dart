@@ -24,7 +24,7 @@ class NavigationButton extends StatelessWidget{
           style: new TextStyle(
               fontSize: 10,
               fontFamily: 'LEMONMILKLIGHT',
-              letterSpacing: 5,
+              letterSpacing: 2,
               fontStyle: FontStyle.italic
           ),
         ),
@@ -61,7 +61,7 @@ class ThriveButton extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return new RawMaterialButton(  //creates button
-      child: Text(
+      child: child ?? Text(
         buttonName,
         style: TextStyle(
           color: Colors.white,

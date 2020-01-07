@@ -50,7 +50,8 @@ class CreditPage extends StatelessWidget{  //Development credits page
             ),
 
             new Text(
-              "${getString('credit/version')}: ${appInfo.version}",
+              "${getString('credit/version')}: ${appInfo.version}" +
+                (appInfo.buildNumber != null && appInfo.buildNumber != "" ? "+${appInfo.version}" : ""),
               style: new TextStyle(
                 fontFamily: 'ROCK',
                 fontSize: 12,

@@ -8,6 +8,7 @@ import 'package:thirsk_outer_space/general/version_number.dart';
 import 'package:thirsk_outer_space/general/common_widgets.dart';
 import 'package:thirsk_outer_space/pages/home_page.dart';
 import 'package:thirsk_outer_space/pages/thrive_page.dart';
+import 'package:thirsk_outer_space/pages/settings_page.dart';
 
 // constants that hold all the resource links within thirskOS primarily on the thrive page, this is modular in the sense that it's easy to swap out links
 // and add new ones when needed with little programing knowledge
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
       home: Builder(
         builder: (context) => DefaultTabController(
           initialIndex: 1,
-          length: 3,
+          length: 4,
 
           child: new Scaffold(
               body: TabBarView(
@@ -103,9 +104,13 @@ class MyApp extends StatelessWidget {
                     child: new EventPage(),
                     padding: EdgeInsets.all(10),
                     color: Colors.grey[800],
-
                   ),
 
+                  new Container(
+                    child: new SettingsPage(),
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey[800],
+                  ),
                   //containers of the three pages
 
                 ],
@@ -122,9 +127,11 @@ class MyApp extends StatelessWidget {
 
                   Tab(
                     child: new NavigationButton(buttonImage: 'assets/event.png', buttonText: getString('event/button')),
-
                   ),
 
+                  Tab(
+                    child: new NavigationButton(buttonImage: 'assets/settings.png', buttonText: getString('settings/button')),
+                  ),
                 ],
                 //labelColor: Colors.blue,
                 //unselectedLabelColor: Colors.white,

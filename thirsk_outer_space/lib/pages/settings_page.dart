@@ -12,15 +12,46 @@ class SettingsPage extends StatelessWidget{
         children: <Widget>[
           Image.asset('assets/title.png', ),
           Container(height: 15.0,),
-          RawMaterialButton(
+          ThriveButton(
             child: Row(
               children: <Widget>[
                 Icon(Icons.info),
-                Text("About"),
+                Text("Aboot"),
               ],
             ),
             onPressed: ()=>{},
           ),
+          Container(height: 5.0,),
+          ThriveButton(
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.people),
+                Text("Credits"),
+              ],
+            ),
+            onPressed: ()=>{},
+          ),
+          Container(height: 5.0,),
+          ThriveButton(
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.access_time),
+                Text("Changelog"),
+              ],
+            ),
+            onPressed: ()=>{},
+          ),
+          Container(height: 5.0,),
+          ThriveButton(
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.settings),
+                Text("Preference"),
+              ],
+            ),
+            onPressed: ()=>{},
+          ),
+          Container(height: 5.0,),
         ],
       ),
     );
