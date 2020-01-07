@@ -117,7 +117,7 @@ class OneEventPost extends StatelessWidget{
         child: Column(
           children: <Widget>[
             Text("Error", style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK',),),
-            Text("Unacceptable json format. Press 'F' to pay respect.", style: TextStyle(fontSize: 12, fontFamily: 'ROCK',),),
+            Text("Unacceptable json format. Press 'F' to pay respect.", style: Theme.of(context).textTheme.body2,),
             Text(""),
             Row(
               children: <Widget>[
@@ -147,7 +147,7 @@ class OneEventPost extends StatelessWidget{
                 //takes post content searches for links and makes them clickable
                 //onOpen: (link) async => launchURL(link.url),
                 truncateString(postData.postContent.replaceAll('#039;', '\'')), //replaces html code for ' with ' character
-                style: TextStyle(fontSize: 12, fontFamily: 'ROCK',),
+                style: Theme.of(context).textTheme.body2,
                 //linkStyle: TextStyle(color: Colors.black),
               ),
 
@@ -155,8 +155,11 @@ class OneEventPost extends StatelessWidget{
               Row(
                 children: <Widget>[
                   Text(""),
-                  //Text(postData.name, style: TextStyle(fontSize: 12,),), //not working properly (spits out "Array") (probably a backend issue
-                  Text(postData.deltaTimeDisplay, style: TextStyle(fontSize: 12,),),
+                  //Text(postData.name, style: Theme.of(context).textTheme.body2,), //not working properly (spits out "Array") (probably a backend issue
+                  Text(
+                    postData.deltaTimeDisplay,
+                    style: Theme.of(context).textTheme.body2,
+                  ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               )

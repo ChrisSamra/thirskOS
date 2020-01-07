@@ -154,7 +154,7 @@ class DiplomaPage extends StatelessWidget{   //Built in page for Exam Resources
           new Text(
             getString('misc/under_construction'),
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.body2,
           ),
 
         ],
@@ -228,7 +228,7 @@ class CtsPage extends StatelessWidget{
           new Text(
             getString('misc/under_construction'),
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.body2,
           ),
 
         ],
@@ -289,7 +289,7 @@ class SportsPage extends StatelessWidget{
           Text(
             getString('misc/under_construction'),
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.body2,
           ),
         ],
       ),
