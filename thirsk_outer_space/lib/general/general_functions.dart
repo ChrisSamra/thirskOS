@@ -196,9 +196,13 @@ abstract class WebInfoDisplayer extends StatefulWidget{
   final String websiteUrl;
   /// The location to store the cache data.
   final String cacheLocation;
+  /// The function that builds a widget based on [data].
+  Widget buildCoreWidget(String data);
   WebInfoDisplayer({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
+  @override
+  State<StatefulWidget> createState() => _WebInfoDisplayerState();
 }
-abstract class _WebInfoDisplayerState<T extends WebInfoDisplayer> extends State<T>{
+class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebInfoDisplayer>{
   /// A [DataRetriever] to retrieve data from the internet or the cache for this class.
   DataRetriever dataRetriever;
   @override
@@ -207,8 +211,6 @@ abstract class _WebInfoDisplayerState<T extends WebInfoDisplayer> extends State<
     dataRetriever = DataRetriever(widget.websiteUrl,widget.cacheLocation);
     dataRetriever.readCacheData();
   }
-  /// The function that builds a widget based on [data].
-  Widget buildCoreWidget(String data);
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +229,7 @@ abstract class _WebInfoDisplayerState<T extends WebInfoDisplayer> extends State<
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
             );
-
+            var data = snapshot.hasData ? snapshot.data.body : dataRetriever.cachedData;
             return Column(
               children: <Widget>[
                 snapshot.hasData ?
@@ -240,7 +242,7 @@ abstract class _WebInfoDisplayerState<T extends WebInfoDisplayer> extends State<
                   )
                 ) :
                 progressIndicator,
-                buildCoreWidget(dataRetriever.cachedData),
+                data == null ? null : widget.buildCoreWidget(data),
               ]..removeWhere((widget) => widget == null),
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             );
