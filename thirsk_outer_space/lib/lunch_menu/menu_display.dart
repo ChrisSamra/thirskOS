@@ -255,12 +255,12 @@ class _MenuDisplayState extends State<MenuDisplay> {
               if(_displayData.length == 0){
                 _displayData.insert(0,Text(
                   "Error: ${snapshot.data.statusCode}.",
-                  style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.errorColor),
+                  style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
                 ));
               } else {
                 _displayData.insert(0,Text(
                   "Warning: ${snapshot.data.statusCode}.",
-                  style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.warningColor),
+                  style: appTextTheme(context).body1.apply(color: ColorCoding.warningColor),
                 ));
               }
             }

@@ -171,7 +171,13 @@ class DataRetriever {
     }
   }
 }
+/// A static class that stores some common colors in the app.
 class ColorCoding{
+  /// The color used for error messages.
   static final Color errorColor = Colors.redAccent[700];
+  /// The color used for warning messages.
   static final Color warningColor = Colors.amber[800];
+}
+TextTheme appTextTheme(BuildContext context){
+  return Theme.of(context).textTheme;
 }

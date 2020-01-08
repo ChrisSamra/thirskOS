@@ -133,7 +133,7 @@ class OneEventPost extends StatelessWidget{
     //     child: Column(
     //       children: <Widget>[
     //         Text("Error", style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK',),),
-    //         Text("Unacceptable json format. Press 'F' to pay respect.", style: Theme.of(context).textTheme.body2,),
+    //         Text("Unacceptable json format. Press 'F' to pay respect.", style: appTextTheme(context).body2,),
     //         Text(""),
     //         Row(
     //           children: <Widget>[
@@ -163,7 +163,7 @@ class OneEventPost extends StatelessWidget{
                 //takes post content searches for links and makes them clickable
                 //onOpen: (link) async => launchURL(link.url),
                 truncateString(postData.postContent.replaceAll('#039;', '\'')), //replaces html code for ' with ' character
-                style: Theme.of(context).textTheme.body2,
+                style: appTextTheme(context).body2,
                 //linkStyle: TextStyle(color: Colors.black),
               ),
 
@@ -171,10 +171,10 @@ class OneEventPost extends StatelessWidget{
               Row(
                 children: <Widget>[
                   Text(""),
-                  //Text(postData.name, style: Theme.of(context).textTheme.body2,), //not working properly (spits out "Array") (probably a backend issue
+                  //Text(postData.name, style: appTextTheme(context).body2,), //not working properly (spits out "Array") (probably a backend issue
                   Text(
                     postData.deltaTimeDisplay,
-                    style: Theme.of(context).textTheme.body2,
+                    style: appTextTheme(context).body2,
                   ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -288,6 +288,9 @@ class _AllEventPostsState extends State<AllEventPosts>{
         child: FutureBuilder<http.Response>(
           future: eventData.readData(),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
           builder: (context,snapshot){
+            if(snapshot.hasError){
+              throw snapshot.error;
+            }
             if(snapshot.hasData) {
               //print(snapshot.data);
               //print(LinkParser.getListOfLinks(snapshot.data));
@@ -299,8 +302,8 @@ class _AllEventPostsState extends State<AllEventPosts>{
                 convertedData.insert(
                   0,
                   convertedData.length == 0 ?
-                    Text("Error: ${snapshot.data.statusCode}", style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.errorColor),) :
-                    Text("Warning: ${snapshot.data.statusCode}", style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.warningColor),)
+                    Text("Error: ${snapshot.data.statusCode}", style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),) :
+                    Text("Warning: ${snapshot.data.statusCode}", style: appTextTheme(context).body1.apply(color: ColorCoding.warningColor),)
                     
                   );
               }
