@@ -52,6 +52,33 @@ class EventPage extends StatelessWidget{
 /// The core app.
 class MyApp extends StatelessWidget {
   // This widget is the root of the application, the skeleton if you will.
+
+  final TabBar bottomBar = TabBar( //creates bottom navigation bar
+    tabs: [
+      Tab(
+        child: new NavigationButton(buttonImage: 'assets/thrive.png', buttonText: getString('thrive/button')),
+      ),
+
+      Tab(
+        child: new NavigationButton(buttonImage: 'assets/home.png', buttonText: getString('home/button')),
+      ),
+
+      Tab(
+        child: new NavigationButton(buttonImage: 'assets/event.png', buttonText: getString('event/button')),
+      ),
+
+      Tab(
+        child: new NavigationButton(buttonImage: 'assets/settings.png', buttonText: getString('settings/button')),
+      ),
+    ],
+    //labelColor: Colors.blue,
+    //unselectedLabelColor: Colors.white,
+    indicatorSize: TabBarIndicatorSize.label,
+    labelPadding: EdgeInsets.all(20),
+    indicatorPadding: EdgeInsets.all(6.0),
+    indicatorColor: Colors.white,
+  );
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //maintains vertical orientation
@@ -63,7 +90,7 @@ class MyApp extends StatelessWidget {
       home: Builder(
         builder: (context) => DefaultTabController(
           initialIndex: 1,
-          length: 4,
+          length: bottomBar.tabs.length,
           child: new Scaffold(
             body: TabBarView(
               children: [
@@ -114,31 +141,7 @@ class MyApp extends StatelessWidget {
 
               ],
             ),
-            bottomNavigationBar: new TabBar( //creates bottom navigation bar
-              tabs: [
-                Tab(
-                  child: new NavigationButton(buttonImage: 'assets/thrive.png', buttonText: getString('thrive/button')),
-                ),
-
-                Tab(
-                  child: new NavigationButton(buttonImage: 'assets/home.png', buttonText: getString('home/button')),
-                ),
-
-                Tab(
-                  child: new NavigationButton(buttonImage: 'assets/event.png', buttonText: getString('event/button')),
-                ),
-
-                Tab(
-                  child: new NavigationButton(buttonImage: 'assets/settings.png', buttonText: getString('settings/button')),
-                ),
-              ],
-              //labelColor: Colors.blue,
-              //unselectedLabelColor: Colors.white,
-              indicatorSize: TabBarIndicatorSize.label,
-              labelPadding: EdgeInsets.all(20),
-              indicatorPadding: EdgeInsets.all(6.0),
-              indicatorColor: Colors.white,
-            ),
+            bottomNavigationBar: bottomBar,
             backgroundColor: Theme.of(context).bottomAppBarColor,// Color(0xFF2D2D2D), //app background colour
           ),
         ),

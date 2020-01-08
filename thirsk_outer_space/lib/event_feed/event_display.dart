@@ -248,84 +248,97 @@ class OneEventPostDetail extends StatelessWidget{
   }
 }
 ///The Event page which contains all the events
-class AllEventPosts extends StatefulWidget{
+class AllEventPosts extends WebInfoDisplayer{
 
-  final String websiteUrl;
-  final String cacheLocation;
-  AllEventPosts({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
+  // final String websiteUrl;
+  // final String cacheLocation;
+  // AllEventPosts({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
 
+  // @override
+  // State<StatefulWidget> createState() {
+
+  //   return _AllEventPostsState();
+  // }
   @override
-  State<StatefulWidget> createState() {
-
-    return _AllEventPostsState();
-  }
-}
-class _AllEventPostsState extends State<AllEventPosts>{
-  // List<String> listOfPosts = [
-  //   '{"name": "John S","email": "john@smith.net","Title": "Clickbait","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}',
-  //   '{"name": "Jane S","email": "jane@smith.net","Title": "Clickbait: Second Coming\\nYeye","post": "Another shitpost that does nothing.","date": "19-04-19 10:10:47pm"}',
-
-  // ];
-  DataRetriever eventData;
-  @override
-  void initState() {
-    super.initState();
-    eventData = new DataRetriever(widget.websiteUrl,widget.cacheLocation);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
+  Widget buildCoreWidget(String data) {
+    AllEventData jsonData = AllEventData.directFromJson(data);
     List<Widget> convertedData = [];
-    /*for(int i = 0; i < listOfPosts.length; i++){
-      convertedData.add(OneEventPost(postJson: listOfPosts[i]));
-
-    }*/
-    //debugPrint(convertedData.length.toString());
-    //return OneEventPost(postJson: '{"name": "John S","email": "john@smith.net","Title": "Clickbait Title","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}');
-
-    return Container(
-        child: FutureBuilder<http.Response>(
-          future: eventData.readData(),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
-          builder: (context,snapshot){
-            if(snapshot.hasError){
-              throw snapshot.error;
-            }
-            if(snapshot.hasData) {
-              //print(snapshot.data);
-              //print(LinkParser.getListOfLinks(snapshot.data));
-              AllEventData data = AllEventData.directFromJson(snapshot.data.body);
-              convertedData = [];
-              data.posts.forEach((value) => convertedData.add(OneEventPost(postData: value)));
-              //print(convertedData);
-              if(snapshot.data.statusCode != 200){
-                convertedData.insert(
-                  0,
-                  convertedData.length == 0 ?
-                    Text("Error: ${snapshot.data.statusCode}", style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),) :
-                    Text("Warning: ${snapshot.data.statusCode}", style: appTextTheme(context).body1.apply(color: ColorCoding.warningColor),)
-                    
-                  );
-              }
-              return Column(
-                children: convertedData,
-
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              );
-            }
-            return Column(
-              children: <Widget>[
-                CircularProgressIndicator(),
-                Text(getString('misc/loading')),
-              ],
-              crossAxisAlignment: CrossAxisAlignment.center,
-            );
-          },
-        )
-
-    );
+    for(var oneData in jsonData.posts){
+      convertedData.add(OneEventPost(postData: oneData));
+    }
+    return Column(
+      children: convertedData,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    ); 
   }
+  AllEventPosts({Key key, @required String websiteUrl, @required String cacheLocation}) : super(key:key,websiteUrl:websiteUrl,cacheLocation:cacheLocation);
 }
+// class _AllEventPostsState extends State<AllEventPosts>{
+//   // List<String> listOfPosts = [
+//   //   '{"name": "John S","email": "john@smith.net","Title": "Clickbait","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}',
+//   //   '{"name": "Jane S","email": "jane@smith.net","Title": "Clickbait: Second Coming\\nYeye","post": "Another shitpost that does nothing.","date": "19-04-19 10:10:47pm"}',
+
+//   // ];
+//   DataRetriever eventData;
+//   @override
+//   void initState() {
+//     super.initState();
+//     eventData = new DataRetriever(widget.websiteUrl,widget.cacheLocation);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+
+//     List<Widget> convertedData = [];
+//     /*for(int i = 0; i < listOfPosts.length; i++){
+//       convertedData.add(OneEventPost(postJson: listOfPosts[i]));
+
+//     }*/
+//     //debugPrint(convertedData.length.toString());
+//     //return OneEventPost(postJson: '{"name": "John S","email": "john@smith.net","Title": "Clickbait Title","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}');
+
+//     return Container(
+//         child: FutureBuilder<http.Response>(
+//           future: eventData.readData(),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
+//           builder: (context,snapshot){
+//             if(snapshot.hasError){
+//               throw snapshot.error;
+//             }
+//             if(snapshot.hasData) {
+//               //print(snapshot.data);
+//               //print(LinkParser.getListOfLinks(snapshot.data));
+//               AllEventData data = AllEventData.directFromJson(snapshot.data.body);
+//               convertedData = [];
+//               data.posts.forEach((value) => convertedData.add(OneEventPost(postData: value)));
+//               //print(convertedData);
+//               if(snapshot.data.statusCode != 200){
+//                 convertedData.insert(
+//                   0,
+//                   convertedData.length == 0 ?
+//                     Text("Error: ${snapshot.data.statusCode}", style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),) :
+//                     Text("Warning: ${snapshot.data.statusCode}", style: appTextTheme(context).body1.apply(color: ColorCoding.warningColor),)
+                    
+//                   );
+//               }
+//               return Column(
+//                 children: convertedData,
+
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               );
+//             }
+//             return Column(
+//               children: <Widget>[
+//                 CircularProgressIndicator(),
+//                 Text(getString('misc/loading')),
+//               ],
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//             );
+//           },
+//         )
+
+//     );
+//   }
+// }
 // Future<List<String>> fetchEventPosts(String url) async{
 //   final response = await http.get(url);
 

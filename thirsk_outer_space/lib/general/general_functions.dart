@@ -107,6 +107,7 @@ class DataRetriever {
   /// 
   /// Returns the content when successfully retrieving the text. Otherwise, returns null.
   Future<String> readCacheData() async {
+    print("Reading Cached Data: ${cachedData != null}");
     if(cachedData != null)
       return cachedData;
     try {
@@ -128,7 +129,8 @@ class DataRetriever {
   Future<File> writeCacheData(String strToWrite) async {
     final file = await _localFile;
     _lastCached = DateTime.now();
-    cachedData = strToWrite;
+    if(strToWrite != null)
+      cachedData = strToWrite;
     file.setLastModified(_lastCached);
     // Write the file
     return file.writeAsString(strToWrite);
@@ -136,6 +138,7 @@ class DataRetriever {
   /// Read the data from [websiteUrl] directly.
   Future<http.Response> readWebData() async {
     try {
+      await Future.delayed(Duration(seconds: 5));
       return await http.get(websiteUrl);
     } catch(e) {
       return http.Response("",900);
@@ -159,7 +162,9 @@ class DataRetriever {
   Future<http.Response> readData({bool forceRefresh = false}) async {
     if(forceRefresh || cacheUseDuration == null || _lastCached == null || DateTime.now().isAfter(_lastCached.add(cacheUseDuration))){
       // If the cache does not override the web data, under normal condition.
+      print("Before web: ${cachedData != null}");
       final response = await readWebData();
+      print("After web: ${cachedData != null}");
       // 200 is the successful code when accessing data from a website.
       if(response.statusCode == 200){
         // If the response is successful, simply return the response and store the response as cache
@@ -169,12 +174,14 @@ class DataRetriever {
         // If the response is not successful, access the cache. This way the user can access previously
         // downloaded data without connecting to the internet.
         final cache = await readCacheData();
+        print("After cache(fail): ${cachedData != null}");
         return http.Response(cache,response.statusCode);
       }
     } else {
       // If the last time a new cache is made so close to the current time that another website visit
       // is unnecessary. This helps save the user's data theoretically.
       final cache = await readCacheData();
+      print("After cache: ${cachedData != null}");
       return http.Response(cache,200);
     }
   }
@@ -197,11 +204,14 @@ abstract class WebInfoDisplayer extends StatefulWidget{
   /// The location to store the cache data.
   final String cacheLocation;
   /// The function that builds a widget based on [data].
+  /// 
+  /// [data] is guarenteed to be non-null and non-empty, unless something is wrong with the code.
   Widget buildCoreWidget(String data);
   WebInfoDisplayer({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
   @override
   State<StatefulWidget> createState() => _WebInfoDisplayerState();
 }
+/// The state of all subclass of [WebInfoDisplayer]
 class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebInfoDisplayer>{
   /// A [DataRetriever] to retrieve data from the internet or the cache for this class.
   DataRetriever dataRetriever;
@@ -214,41 +224,45 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    print("Build: ${dataRetriever.cachedData != null}");
     return Container(
-        child: FutureBuilder<http.Response>(
-          future: dataRetriever.readData(),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
-          builder: (context,snapshot){
-            if(snapshot.hasError){
-              throw snapshot.error;
-            }
-            var progressIndicator = Column(
-              children: <Widget>[
-                CircularProgressIndicator(),
-                Text(getString('misc/loading')),
-              ],
-              crossAxisAlignment: CrossAxisAlignment.center,
-            );
-            var data = snapshot.hasData ? snapshot.data.body : dataRetriever.cachedData;
-            return Column(
-              children: <Widget>[
-                snapshot.hasData ?
-                (
-                  snapshot.data.statusCode == 200 ? 
-                  null : 
-                  Text(
-                    "Error: ${snapshot.data.statusCode}",
-                    style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
-                  )
-                ) :
-                progressIndicator,
-                data == null ? null : widget.buildCoreWidget(data),
-              ]..removeWhere((widget) => widget == null),
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            );
-          },
-        )
-
+      child: FutureBuilder<http.Response>(
+        future: dataRetriever.readData(forceRefresh: true),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
+        builder: (context,snapshot){
+          if(snapshot.hasError){
+            throw snapshot.error;
+          }
+          var progressIndicator = Column(
+            children: <Widget>[
+              CircularProgressIndicator(),
+              Text(getString('misc/loading')),
+            ],
+            crossAxisAlignment: CrossAxisAlignment.center,
+          );
+          //var data = snapshot.hasData ? snapshot.data.body : dataRetriever.cachedData;
+          print("Before Return: ${dataRetriever.cachedData != null}");
+          return Column(
+            children: <Widget>[
+              RawMaterialButton(child: Icon(Icons.refresh),onPressed: ()=>setState((){}),),
+              snapshot.hasData ?
+              (
+                snapshot.data.statusCode == 200 ? 
+                null : 
+                Text(
+                  "Error: ${snapshot.data.statusCode}",
+                  style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
+                )
+              ) :
+              progressIndicator,
+              FutureBuilder<String>(
+                future: dataRetriever.readCacheData(),
+                builder: (context,snapshot) => (snapshot.data == null || snapshot.data == "") ? Container() : widget.buildCoreWidget(snapshot.data),
+              ),
+            ]..removeWhere((widget) => widget == null),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          );
+        },
+      )
     );
   }
 }
