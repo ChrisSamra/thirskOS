@@ -127,7 +127,11 @@ class DataRetriever {
   }
   /// Read the data from [websiteUrl] directly.
   Future<http.Response> readWebData() async {
-    return await http.get(websiteUrl);
+    try {
+      return await http.get(websiteUrl);
+    } catch(e) {
+      return http.Response("",900);
+    }
   }
   /// Retrieve the appropriate data.
   /// 
@@ -145,7 +149,7 @@ class DataRetriever {
   /// * If the web is unsuccessfully accessed, [http.Response.statusCode] will have the error code, but
   ///   [http.Response.body] will have the cached data, if one existed.
   Future<http.Response> readData({bool forceRefresh = false}) async {
-    if(forceRefresh || cacheUseDuration == null || DateTime.now().isAfter(_lastCached.add(cacheUseDuration))){
+    if(forceRefresh || cacheUseDuration == null || _lastCached == null || DateTime.now().isAfter(_lastCached.add(cacheUseDuration))){
       // If the cache does not override the web data, under normal condition.
       final response = await readWebData();
       // 200 is the successful code when accessing data from a website.

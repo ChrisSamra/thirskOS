@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget{
           textAlign: TextAlign.center,
         ),
 
-        MenuDisplay(menuCache: MenuCache()), //grabs cached lunch menu (ask Roger)
+        MenuDisplay(websiteUrl: "http://rths.ca/rthsJSONmenu.php",cacheLocation: "lunch_menu.txt",), //grabs cached lunch menu (ask Roger)
 
       ],
     ));
