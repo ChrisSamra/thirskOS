@@ -42,7 +42,7 @@ class EventPage extends StatelessWidget{
         ),
 
         //OneEventPost(postJson: '',),
-        AllEventPosts() //grabs post information (ask Roger)
+        AllEventPosts(websiteUrl: "http://rths.ca/thirskOS/Posts.php", cacheLocation: "event_feed") //grabs post information (ask Roger)
 
       ],
     ));

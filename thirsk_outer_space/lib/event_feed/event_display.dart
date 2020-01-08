@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 //import 'package:path_provider/path_provider.dart';
 //import 'package:date_format/date_format.dart';
-import 'dart:async';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:thirsk_outer_space/general/common_widgets.dart';
 //import 'package:url_launcher/url_launcher.dart';
@@ -94,47 +93,64 @@ class OnePostData
     }
   }
 }
+class AllEventData{
+  List<OnePostData> posts;
+  AllEventData({this.posts});
+  factory AllEventData.fromJson(List<dynamic> json){
+    List<OnePostData> newList = new List<OnePostData>();
+    newList = json.map((i)=>OnePostData.fromJson(i)).toList();
+    return AllEventData(posts: newList);
+  }
+  factory AllEventData.directFromJson(String jsonVal){
+    List<dynamic> tempMap = json.decode(jsonVal);
+    //print(tempMap);
+    return AllEventData.fromJson(tempMap);
+  }
+}
 ///The widget that displays a [OnePostData]'s JSON. Is the preview of [OneEventPostDetail]
 class OneEventPost extends StatelessWidget{
-  OneEventPost({Key key,@required this.postJson, this.previewStringLength = 200}) : super(key:key);
-  final String postJson;
+  
+  //final String postJson;
+  final OnePostData postData;
   //
   final int previewStringLength;
+  
+  OneEventPost({Key key, postJson,OnePostData postData, this.previewStringLength = 200}) :
+    this.postData = postData ?? OnePostData.directFromJson(postJson), super(key:key);
+  
   @override
   Widget build(BuildContext context) {
+    // final String defaultJson = '{"Post_id":"18","title":"asdasdasd","content":"asdasdasdasdasdasdasdvsdgsdfgg","postDate":"11-05-2019 (02:17:31)","name":"stamnostomp","uid":"1"}';
+    // try {
+    //   if (postJson == '') {
+    //     postData = OnePostData.directFromJson(defaultJson);
+    //   } else {
+    //     postData = OnePostData.directFromJson(postJson);
+    //   }
+    // } catch (e) {
+    //   print("this is an error. that's sad");
+    //   return Container(
+    //     child: Column(
+    //       children: <Widget>[
+    //         Text("Error", style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK',),),
+    //         Text("Unacceptable json format. Press 'F' to pay respect.", style: Theme.of(context).textTheme.body2,),
+    //         Text(""),
+    //         Row(
+    //           children: <Widget>[
+    //             Text("RIP this post"),
+    //             Text("2019~2019")
+    //           ],
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //         )
+    //       ],
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //     ),
+    //     color: Color(0xff5762db),
+    //     margin: new EdgeInsets.all(10.0),
+    //     padding: new EdgeInsets.all(10.0),
 
-    OnePostData postData;
-    final String defaultJson = '{"Post_id":"18","title":"asdasdasd","content":"asdasdasdasdasdasdasdvsdgsdfgg","postDate":"11-05-2019 (02:17:31)","name":"stamnostomp","uid":"1"}';
-    try {
-      if (postJson == '') {
-        postData = OnePostData.directFromJson(defaultJson);
-      } else {
-        postData = OnePostData.directFromJson(postJson);
-      }
-    } catch (e) {
-      print("this is an error. that's sad");
-      return Container(
-        child: Column(
-          children: <Widget>[
-            Text("Error", style: TextStyle(fontSize: 18.0, fontFamily: 'ROCK',),),
-            Text("Unacceptable json format. Press 'F' to pay respect.", style: Theme.of(context).textTheme.body2,),
-            Text(""),
-            Row(
-              children: <Widget>[
-                Text("RIP this post"),
-                Text("2019~2019")
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            )
-          ],
-          crossAxisAlignment: CrossAxisAlignment.start,
-        ),
-        color: Color(0xff5762db),
-        margin: new EdgeInsets.all(10.0),
-        padding: new EdgeInsets.all(10.0),
-
-      );
-    }
+    //   );
+    // }
     try {
       var truncateString = (String str) => str.length > previewStringLength ? str.substring(0,previewStringLength-3) + "..." : str;
       return Container(
@@ -233,6 +249,11 @@ class OneEventPostDetail extends StatelessWidget{
 }
 ///The Event page which contains all the events
 class AllEventPosts extends StatefulWidget{
+
+  final String websiteUrl;
+  final String cacheLocation;
+  AllEventPosts({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
+
   @override
   State<StatefulWidget> createState() {
 
@@ -245,6 +266,13 @@ class _AllEventPostsState extends State<AllEventPosts>{
     '{"name": "Jane S","email": "jane@smith.net","Title": "Clickbait: Second Coming\\nYeye","post": "Another shitpost that does nothing.","date": "19-04-19 10:10:47pm"}',
 
   ];
+  DataRetriever eventData;
+  @override
+  void initState() {
+    super.initState();
+    eventData = new DataRetriever(widget.websiteUrl,widget.cacheLocation);
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -253,21 +281,29 @@ class _AllEventPostsState extends State<AllEventPosts>{
       convertedData.add(OneEventPost(postJson: listOfPosts[i]));
 
     }*/
-    debugPrint(convertedData.length.toString());
+    //debugPrint(convertedData.length.toString());
     //return OneEventPost(postJson: '{"name": "John S","email": "john@smith.net","Title": "Clickbait Title","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}');
 
     return Container(
-        child: FutureBuilder<List<String>>(
-          future: fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
+        child: FutureBuilder<http.Response>(
+          future: eventData.readData(),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
           builder: (context,snapshot){
             if(snapshot.hasData) {
               //print(snapshot.data);
               //print(LinkParser.getListOfLinks(snapshot.data));
+              AllEventData data = AllEventData.directFromJson(snapshot.data.body);
               convertedData = [];
-              for(int i = 0; i < snapshot.data.length; i++){
-                convertedData.add(OneEventPost(postJson: snapshot.data[i]));
-              }
+              data.posts.forEach((value) => convertedData.add(OneEventPost(postData: value)));
               //print(convertedData);
+              if(snapshot.data.statusCode != 200){
+                convertedData.insert(
+                  0,
+                  convertedData.length == 0 ?
+                    Text("Error: ${snapshot.data.statusCode}", style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.errorColor),) :
+                    Text("Warning: ${snapshot.data.statusCode}", style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.warningColor),)
+                    
+                  );
+              }
               return Column(
                 children: convertedData,
 
@@ -287,23 +323,23 @@ class _AllEventPostsState extends State<AllEventPosts>{
     );
   }
 }
-Future<List<String>> fetchEventPosts(String url) async{
-  final response = await http.get(url);
+// Future<List<String>> fetchEventPosts(String url) async{
+//   final response = await http.get(url);
 
-  if (response.statusCode == 200) {
-    // If server returns an OK response, parse the JSON7
+//   if (response.statusCode == 200) {
+//     // If server returns an OK response, parse the JSON7
 
-    //var listOfLinks = LinkParser.getListOfLinks(response.body);
-    var listOfPosts = json.decode(response.body);
-    List<String> listOfReturnData = [];
-    for(int i = 0; i < listOfPosts.length; i++){
-      listOfReturnData.add(json.encode(listOfPosts[i]));
-      //(listOfReturnData[i]);
-    }
-    return listOfReturnData;
-    //return '[{"menuID":"262","soup":"Cream of Broccoli","soupCost":"2.00","entree":"Steamed Hams\' Sandwich","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Creme Brulee Cake","dessertCost":"2.00","menuDate":"2018-03-12"},{"menuID":"263","soup":"Vegetable Soup","soupCost":"2.00","entree":"Stuffed Peppers (Meat or Quinoa Stuffing) with Garden Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Squares","dessertCost":"0.00","menuDate":"2018-03-13"},{"menuID":"264","soup":"yes :)","soupCost":"2.00","entree":"Beef Burger and\/or Quinoa Burger with Baked Fries or Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Pie Daaayyyyyy!","dessertCost":"2.50","menuDate":"2018-03-14"},{"menuID":"265","soup":"For Sure...","soupCost":"2.00","entree":"Butter Chicken ","entreeCost":"2.00","starch1":"Basmati Rice","starch1Cost":"1.00","starch2":"fresh steamed vegetables","starch2Cost":"1.00","dessert":"Black Forest Cake","dessertCost":"2.50","menuDate":"2018-03-15"}]';
-  } else {
-    // If that response was not OK, throw an error.
-    throw Exception('Failed to load post');
-  }
-}
+//     //var listOfLinks = LinkParser.getListOfLinks(response.body);
+//     var listOfPosts = json.decode(response.body);
+//     List<String> listOfReturnData = [];
+//     for(int i = 0; i < listOfPosts.length; i++){
+//       listOfReturnData.add(json.encode(listOfPosts[i]));
+//       //(listOfReturnData[i]);
+//     }
+//     return listOfReturnData;
+//     //return '[{"menuID":"262","soup":"Cream of Broccoli","soupCost":"2.00","entree":"Steamed Hams\' Sandwich","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Creme Brulee Cake","dessertCost":"2.00","menuDate":"2018-03-12"},{"menuID":"263","soup":"Vegetable Soup","soupCost":"2.00","entree":"Stuffed Peppers (Meat or Quinoa Stuffing) with Garden Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Squares","dessertCost":"0.00","menuDate":"2018-03-13"},{"menuID":"264","soup":"yes :)","soupCost":"2.00","entree":"Beef Burger and\/or Quinoa Burger with Baked Fries or Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Pie Daaayyyyyy!","dessertCost":"2.50","menuDate":"2018-03-14"},{"menuID":"265","soup":"For Sure...","soupCost":"2.00","entree":"Butter Chicken ","entreeCost":"2.00","starch1":"Basmati Rice","starch1Cost":"1.00","starch2":"fresh steamed vegetables","starch2Cost":"1.00","dessert":"Black Forest Cake","dessertCost":"2.50","menuDate":"2018-03-15"}]';
+//   } else {
+//     // If that response was not OK, throw an error.
+//     throw Exception('Failed to load post');
+//   }
+// }

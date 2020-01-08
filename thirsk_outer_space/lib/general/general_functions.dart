@@ -171,3 +171,7 @@ class DataRetriever {
     }
   }
 }
+class ColorCoding{
+  static final Color errorColor = Colors.redAccent[700];
+  static final Color warningColor = Colors.amber[800];
+}

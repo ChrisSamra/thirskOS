@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
-import 'package:path_provider/path_provider.dart';
-//import 'package:date_format/date_format.dart';
-import 'dart:async';
-import 'dart:io';
 //import 'package:flutter_linkify/flutter_linkify.dart';// for later use with video links
 import 'package:thirsk_outer_space/strings/string_getter.dart';
 //import 'package:sprintf/sprintf.dart';
@@ -259,12 +255,12 @@ class _MenuDisplayState extends State<MenuDisplay> {
               if(_displayData.length == 0){
                 _displayData.insert(0,Text(
                   "Error: ${snapshot.data.statusCode}.",
-                  style: Theme.of(context).textTheme.body1.apply(color: Colors.redAccent[700]),
+                  style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.errorColor),
                 ));
               } else {
                 _displayData.insert(0,Text(
                   "Warning: ${snapshot.data.statusCode}.",
-                  style: Theme.of(context).textTheme.body1.apply(color: Colors.amber[800]),
+                  style: Theme.of(context).textTheme.body1.apply(color: ColorCoding.warningColor),
                 ));
               }
             }
