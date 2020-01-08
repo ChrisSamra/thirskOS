@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:thirsk_outer_space/strings/string_getter.dart';
 ///Link to a url. Opens as a web page for some reason.
 Future launchURL(String url) async {
   if (await canLaunch(url)){
@@ -71,6 +72,8 @@ class DataRetriever {
   Duration cacheUseDuration;
   /// The time since the cache data is last retrieved.
   DateTime _lastCached;
+  /// Cache for the cache file. Save time, probably.
+  String cachedData;
   /// The constructor for this class.
   /// 
   /// If [cacheUseDuration] is not specified, then a default 5 minutes is used.
@@ -104,12 +107,15 @@ class DataRetriever {
   /// 
   /// Returns the content when successfully retrieving the text. Otherwise, returns null.
   Future<String> readCacheData() async {
+    if(cachedData != null)
+      return cachedData;
     try {
       final file = await _localFile;
 
       // Read the file
       String contents = await file.readAsString();
-
+      _lastCached = await file.lastModified();
+      cachedData = contents;
       return contents;
     } catch (e) {
       // If we encounter an error, return 0
@@ -122,6 +128,8 @@ class DataRetriever {
   Future<File> writeCacheData(String strToWrite) async {
     final file = await _localFile;
     _lastCached = DateTime.now();
+    cachedData = strToWrite;
+    file.setLastModified(_lastCached);
     // Write the file
     return file.writeAsString(strToWrite);
   }
@@ -178,6 +186,67 @@ class ColorCoding{
   /// The color used for warning messages.
   static final Color warningColor = Colors.amber[800];
 }
+/// Returns `Theme.of(context).textTheme`.
 TextTheme appTextTheme(BuildContext context){
   return Theme.of(context).textTheme;
+}
+/// An abstract class that is used to display data from the internet.
+abstract class WebInfoDisplayer extends StatefulWidget{
+  /// The URL of the website.
+  final String websiteUrl;
+  /// The location to store the cache data.
+  final String cacheLocation;
+  WebInfoDisplayer({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
+}
+abstract class _WebInfoDisplayerState<T extends WebInfoDisplayer> extends State<T>{
+  /// A [DataRetriever] to retrieve data from the internet or the cache for this class.
+  DataRetriever dataRetriever;
+  @override
+  void initState() {
+    super.initState();
+    dataRetriever = DataRetriever(widget.websiteUrl,widget.cacheLocation);
+    dataRetriever.readCacheData();
+  }
+  /// The function that builds a widget based on [data].
+  Widget buildCoreWidget(String data);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+        child: FutureBuilder<http.Response>(
+          future: dataRetriever.readData(),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
+          builder: (context,snapshot){
+            if(snapshot.hasError){
+              throw snapshot.error;
+            }
+            var progressIndicator = Column(
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Text(getString('misc/loading')),
+              ],
+              crossAxisAlignment: CrossAxisAlignment.center,
+            );
+
+            return Column(
+              children: <Widget>[
+                snapshot.hasData ?
+                (
+                  snapshot.data.statusCode == 200 ? 
+                  null : 
+                  Text(
+                    "Error: ${snapshot.data.statusCode}",
+                    style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
+                  )
+                ) :
+                progressIndicator,
+                buildCoreWidget(dataRetriever.cachedData),
+              ]..removeWhere((widget) => widget == null),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            );
+          },
+        )
+
+    );
+  }
 }

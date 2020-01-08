@@ -261,11 +261,11 @@ class AllEventPosts extends StatefulWidget{
   }
 }
 class _AllEventPostsState extends State<AllEventPosts>{
-  List<String> listOfPosts = [
-    '{"name": "John S","email": "john@smith.net","Title": "Clickbait","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}',
-    '{"name": "Jane S","email": "jane@smith.net","Title": "Clickbait: Second Coming\\nYeye","post": "Another shitpost that does nothing.","date": "19-04-19 10:10:47pm"}',
+  // List<String> listOfPosts = [
+  //   '{"name": "John S","email": "john@smith.net","Title": "Clickbait","post": "Literal shitpost that does nothing.","date": "19-04-19 10:10:46pm"}',
+  //   '{"name": "Jane S","email": "jane@smith.net","Title": "Clickbait: Second Coming\\nYeye","post": "Another shitpost that does nothing.","date": "19-04-19 10:10:47pm"}',
 
-  ];
+  // ];
   DataRetriever eventData;
   @override
   void initState() {
