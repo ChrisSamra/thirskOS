@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:thirsk_outer_space/strings/string_getter.dart';
 //import 'package:sprintf/sprintf.dart';
 import 'package:intl/intl.dart';
-import 'package:thirsk_outer_space/general/general_functions.dart';
+import 'package:thirsk_outer_space/general/common_widgets.dart';
 //imported packages etc.
 
 part 'menu_display.g.dart';

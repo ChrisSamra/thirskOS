@@ -4,6 +4,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:thirsk_outer_space/strings/string_getter.dart';
+import 'package:thirsk_outer_space/general/general_functions.dart';
+import 'package:http/http.dart' as http;
 
 /// A button that navigates between home, thrive, and event pages. Displays on the bottom of the app.
 /// 
@@ -102,6 +104,80 @@ class PreviousPageButton extends StatelessWidget{
       onPressed: () {
         Navigator.pop(context);
       },
+    );
+  }
+}
+class LoadingIndicator extends StatelessWidget{
+  final String loadingText;
+  LoadingIndicator({Key key, this.loadingText}) : super(key:key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        CircularProgressIndicator(),
+        Text(loadingText ?? getString('misc/loading')),
+      ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+    );
+  }
+}
+/// An abstract class that is used to display data from the internet.
+abstract class WebInfoDisplayer extends StatefulWidget{
+  /// The URL of the website.
+  final String websiteUrl;
+  /// The location to store the cache data.
+  final String cacheLocation;
+  /// The function that builds a widget based on [data].
+  /// 
+  /// [data] is guarenteed to be non-null and non-empty, unless something is wrong with the code.
+  Widget buildCoreWidget(String data);
+  WebInfoDisplayer({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
+  @override
+  State<StatefulWidget> createState() => _WebInfoDisplayerState();
+}
+/// The state of all subclass of [WebInfoDisplayer]
+class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebInfoDisplayer>{
+  /// A [DataRetriever] to retrieve data from the internet or the cache for this class.
+  DataRetriever dataRetriever;
+  @override
+  void initState() {
+    super.initState();
+    dataRetriever = DataRetriever(widget.websiteUrl,widget.cacheLocation);
+    dataRetriever.readCacheData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FutureBuilder<http.Response>(
+        future: dataRetriever.readData(forceRefresh: true),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
+        builder: (context,snapshot){
+          if(snapshot.hasError){
+            throw snapshot.error;
+          }
+          //var data = snapshot.hasData ? snapshot.data.body : dataRetriever.cachedData;
+          return Column(
+            children: <Widget>[
+              RawMaterialButton(child: Icon(Icons.refresh),onPressed: ()=>setState((){}),),
+              snapshot.hasData ?
+              (
+                snapshot.data.statusCode == 200 ? 
+                null : 
+                Text(
+                  "Error: ${snapshot.data.statusCode}",
+                  style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
+                )
+              ) :
+              LoadingIndicator(),
+              FutureBuilder<String>(
+                future: dataRetriever.readCacheData(),
+                builder: (context,snapshot) => (snapshot.data == null || snapshot.data == "") ? Container() : widget.buildCoreWidget(snapshot.data),
+              ),
+            ]..removeWhere((widget) => widget == null),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          );
+        },
+      )
     );
   }
 }

@@ -59,19 +59,11 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    # Tab icons.
-    - assets/event.png
-    - assets/home.png
-    - assets/thrive.png
-    - assets/settings.png
-    #
-    - assets/title.png
-    - assets/tn.png
-    - assets/cometslogo.png
-    - assets/icf.png
-    - assets/m1.png
-    - assets/m2.png
-    - assets/m3.png
+    - assets/
+    # Markdown files
+    - README.md
+    - CHANGELOG.md
+    - DEVELOPER.md
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -18,7 +18,7 @@ class SettingsPage extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Icon(Icons.info),
-                Text("About"),
+                Text(getString('settings/about')),
               ],
             ),
             onPressed: () => goToPage(context, AboutPage()),
@@ -28,7 +28,7 @@ class SettingsPage extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Icon(Icons.people),
-                Text("Credits"),
+                Text(getString('settings/credit')),
               ],
             ),
             onPressed: () => goToPage(context, CreditPage()),
@@ -38,7 +38,7 @@ class SettingsPage extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Icon(Icons.access_time),
-                Text("Changelog"),
+                Text(getString('settings/changelog')),
               ],
             ),
             onPressed: ()=>{},
@@ -48,7 +48,7 @@ class SettingsPage extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Icon(Icons.feedback),
-                Text("Feedback"),
+                Text(getString('settings/feedback')),
               ],
             ),
             onPressed: ()=>{},
@@ -58,7 +58,7 @@ class SettingsPage extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Icon(Icons.settings),
-                Text("Preference"),
+                Text(getString('settings/preference')),
               ],
             ),
             onPressed: ()=>{},
@@ -196,9 +196,21 @@ class AboutPage extends StatelessWidget{  //Development credits page
             ),
             
             Container(
-              child: MarkdownBody(
-                data: getString('settings/about/body_text'),
-              ),
+              child: FutureBuilder(
+                future: loadAsset('README.md'),
+                builder: (context,snapshot){
+                  if(snapshot.hasData){
+                    return MarkdownBody(
+                      data: snapshot.data,
+                    );
+                  } else if(snapshot.hasError){
+                    return Text(
+                      "Error: Fail to load about page.",
+                      style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
+                    );
+                  }
+                } 
+              ), 
               margin: EdgeInsets.all(20.0),
             ),
           ],

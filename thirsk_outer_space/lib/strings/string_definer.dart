@@ -4,12 +4,15 @@ part of 'string_getter.dart';
 ///The dictionary of string referred to in the app. Helps organize strings.
 DisplayString stringAsset = DisplayString(stringMap:
 {
+  'calendar/break/christmas':'Christmas Break!',
+  'calendar/break/christmas/greeting':'May Santa Claus bring everything you wished for.',
+  'calendar/break/exam_break':'Exam Break!',
+  'calendar/break/exam_break/greeting':'Good luck on your exams!',
   'calendar/break/spring_break':'Spring Break!',
   'calendar/break/spring_break/greeting':'Put some rainboots on and roam free in the world!',
   'calendar/break/summer_break':'Summer Break!',
   'calendar/break/summer_break/greeting':'',
-  'calendar/break/christmas':'Christmas Break!',
-  'calendar/break/christmas/greeting':'May Santa Claus bring everything you wished for.',
+
 
   'calendar/holiday/family_day':'Family Day',
   'calendar/holiday/family_day/greeting':'Spend some quality time with your family. It is FAMILY day afterall.',
@@ -38,7 +41,6 @@ DisplayString stringAsset = DisplayString(stringMap:
   'calendar/resume_class/greeting':'Welcome back to Robert Thirsk High School!',
 
   'calendar/schoolday/beginning_of_school':'School starts in',
-  //'calendar/schoolday/break':'Break',
   'calendar/schoolday/connect':'Connect',
   'calendar/schoolday/ends_in':'ends in',
   'calendar/schoolday/end_of_school':'School is over',
@@ -48,6 +50,8 @@ DisplayString stringAsset = DisplayString(stringMap:
   'calendar/schoolday/nutrition_break':'"Nutrition Break"',
   'calendar/schoolday/period':'Period',
   'calendar/schoolday/starts_in':'starts in',
+
+  'calendar/special/pep_rally':'Pep Rally',
 
   'calendar/view_detail':'View Detail',
 
@@ -100,39 +104,7 @@ DisplayString stringAsset = DisplayString(stringMap:
   'misc/loading':'Loading...',
   'misc/test':'test string',
   'misc/under_construction':'This page is not final and will be updated next year!',
-
-  'settings/about/body_text':
-"""# ThirskOS
-
-Thirsk Outer Space(ThirskOS from now on) is an application developed by the students of Robert Thirsk High School. It provides various vital information for the students and improves the quality of life of students.
-
-ThirskOS is currently in closed alpha, which means there are still lots of features to be added to the app.
-
-## What current functions are in the app
-
-The following is a list of functions already implemented in the app, and is fully functional:
-
-* Lunch menu of this week is displayed on the front page.
-* Catalog for many useful resources under the "Thrive" page.
-
-The following is a list of functions already implemented, but is not currently being used:
-
-* Event system(Teachers are not currently using the website to post events)
-
-## What functions will be added in the future
-
-The following is a list of functions that are currently being worked on:
-
-* Front page displaying the current period and whether there is school today or not.
-* A calendar system that gives information on the various holidays and events.
-
-## Other Links
-
-If you are a developer, click [here](DEVELOPER.md).
-
-The changelog of this app can be found [here](CHANGELOG.md).
-
-If you have any questions, you can email the Lead Designer at <rogerc6@educbe.ca>, or Mr.Blenkhorne at <sablenkhorne@cbe.ab.ca>.""",
+  
   'settings/button':'SETTINGS',
   
   'thrive/button':'THRIVE',
