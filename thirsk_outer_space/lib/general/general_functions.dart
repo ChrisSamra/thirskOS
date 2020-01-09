@@ -107,7 +107,6 @@ class DataRetriever {
   /// 
   /// Returns the content when successfully retrieving the text. Otherwise, returns null.
   Future<String> readCacheData() async {
-    print("Reading Cached Data: ${cachedData != null}");
     if(cachedData != null)
       return cachedData;
     try {
@@ -162,9 +161,7 @@ class DataRetriever {
   Future<http.Response> readData({bool forceRefresh = false}) async {
     if(forceRefresh || cacheUseDuration == null || _lastCached == null || DateTime.now().isAfter(_lastCached.add(cacheUseDuration))){
       // If the cache does not override the web data, under normal condition.
-      print("Before web: ${cachedData != null}");
       final response = await readWebData();
-      print("After web: ${cachedData != null}");
       // 200 is the successful code when accessing data from a website.
       if(response.statusCode == 200){
         // If the response is successful, simply return the response and store the response as cache
@@ -174,14 +171,12 @@ class DataRetriever {
         // If the response is not successful, access the cache. This way the user can access previously
         // downloaded data without connecting to the internet.
         final cache = await readCacheData();
-        print("After cache(fail): ${cachedData != null}");
         return http.Response(cache,response.statusCode);
       }
     } else {
       // If the last time a new cache is made so close to the current time that another website visit
       // is unnecessary. This helps save the user's data theoretically.
       final cache = await readCacheData();
-      print("After cache: ${cachedData != null}");
       return http.Response(cache,200);
     }
   }
@@ -224,7 +219,6 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
 
   @override
   Widget build(BuildContext context) {
-    print("Build: ${dataRetriever.cachedData != null}");
     return Container(
       child: FutureBuilder<http.Response>(
         future: dataRetriever.readData(forceRefresh: true),//fetchEventPosts("http://rths.ca/thirskOS/Posts.php"),
@@ -240,7 +234,6 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
             crossAxisAlignment: CrossAxisAlignment.center,
           );
           //var data = snapshot.hasData ? snapshot.data.body : dataRetriever.cachedData;
-          print("Before Return: ${dataRetriever.cachedData != null}");
           return Column(
             children: <Widget>[
               RawMaterialButton(child: Icon(Icons.refresh),onPressed: ()=>setState((){}),),
