@@ -5,10 +5,8 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:thirsk_outer_space/general/common_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:thirsk_outer_space/strings/string_getter.dart';
 ///Link to a url. Opens as a web page for some reason.
 Future launchURL(String url) async {
   if (await canLaunch(url)){
