@@ -204,11 +204,11 @@ class AboutPage extends StatelessWidget{  //Development credits page
                       data: snapshot.data,
                     );
                   } else if(snapshot.hasError){
-                    return Text(
+                    return ErrorText(
                       "Error: Fail to load about page.",
-                      style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
                     );
                   }
+                  return LoadingIndicator();
                 } 
               ), 
               margin: EdgeInsets.all(20.0),

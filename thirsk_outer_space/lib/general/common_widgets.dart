@@ -163,9 +163,8 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
               (
                 snapshot.data.statusCode == 200 ? 
                 null : 
-                Text(
+                ErrorText(
                   "Error: ${snapshot.data.statusCode}",
-                  style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
                 )
               ) :
               LoadingIndicator(),
@@ -178,6 +177,18 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
           );
         },
       )
+    );
+  }
+}
+class ErrorText extends StatelessWidget {
+  final String text;
+  final Color color;
+  ErrorText(this.text, {Key key, this.color}) : super(key:key);
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: appTextTheme(context).body1.apply(color: color ?? ColorCoding.errorColor),
     );
   }
 }
