@@ -151,63 +151,12 @@ class WeekMenu{
   }
 
 }
-// ///Returns the json string from the site if retrieved successfully.
-// ///
-// Future<String> fetchMenu() async {
-//   final response = await http.get('http://rths.ca/rthsJSONmenu.php');
-
-//   if (response.statusCode == 200) {
-//     // If server returns an OK response, parse the JSON
-//     return response.body;
-//     //return '[{"menuID":"262","soup":"Cream of Broccoli","soupCost":"2.00","entree":"Steamed Hams\' Sandwich","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Creme Brulee Cake","dessertCost":"2.00","menuDate":"2018-03-12"},{"menuID":"263","soup":"Vegetable Soup","soupCost":"2.00","entree":"Stuffed Peppers (Meat or Quinoa Stuffing) with Garden Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Squares","dessertCost":"0.00","menuDate":"2018-03-13"},{"menuID":"264","soup":"yes :)","soupCost":"2.00","entree":"Beef Burger and\/or Quinoa Burger with Baked Fries or Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Pie Daaayyyyyy!","dessertCost":"2.50","menuDate":"2018-03-14"},{"menuID":"265","soup":"For Sure...","soupCost":"2.00","entree":"Butter Chicken ","entreeCost":"2.00","starch1":"Basmati Rice","starch1Cost":"1.00","starch2":"fresh steamed vegetables","starch2Cost":"1.00","dessert":"Black Forest Cake","dessertCost":"2.50","menuDate":"2018-03-15"}]';
-//   } else {
-//     // If that response was not OK, throw an error.
-//     throw Exception('Failed to load post');
-//   }
-// }
-
-
-
-// ///Used to cache data from the site
-// class MenuCache {
-//   Future<String> get _localPath async {
-//     final directory = await getTemporaryDirectory();
-
-//     return directory.path;
-//   }
-
-//   Future<File> get _localFile async {
-//     final path = await _localPath;
-//     return File('$path/menujson.txt');
-//   }
-
-//   Future<String> readJson() async {
-//     try {
-//       final file = await _localFile;
-
-//       // Read the file
-//       String contents = await file.readAsString();
-
-//       return contents;
-//     } catch (e) {
-//       // If we encounter an error, return 0
-//       return '';
-//     }
-//   }
-//   Future<File> writeJson(String strToWrite) async {
-//     final file = await _localFile;
-
-//     // Write the file
-//     return file.writeAsString(strToWrite);
-//   }
-// }
 
 class MenuDisplay extends WebInfoDisplayer {
   MenuDisplay({Key key, @required String websiteUrl, @required String cacheLocation}) : super(key: key, websiteUrl: websiteUrl, cacheLocation: cacheLocation);
 
   @override
   Widget buildCoreWidget(String data) {
-    // TODO: implement buildCoreWidget
     WeekMenu menu = WeekMenu.directFromJson(data);
     return Column(
       children: menu.displayData(),
@@ -216,81 +165,3 @@ class MenuDisplay extends WebInfoDisplayer {
   }
 
 }
-
-// class _MenuDisplayState extends State<MenuDisplay> {
-//   //int _counter = 0;
-//   String jsonRetrieved = '[{"menuID":"262","soup":"Cream of Broccoli","soupCost":"2.00","entree":"Ravioli with 4 Cheese Sauce","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Creme Brulee Cake","dessertCost":"2.00","menuDate":"2018-03-12"},{"menuID":"263","soup":"Vegetable Soup","soupCost":"2.00","entree":"Stuffed Peppers (Meat or Quinoa Stuffing) with Garden Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Squares","dessertCost":"0.00","menuDate":"2018-03-13"},{"menuID":"264","soup":"yes :)","soupCost":"2.00","entree":"Beef Burger and\/or Quinoa Burger with Baked Fries or Salad","entreeCost":"5.00","starch1":"","starch1Cost":"0.00","starch2":"","starch2Cost":"0.00","dessert":"Pie Daaayyyyyy!","dessertCost":"2.50","menuDate":"2018-03-14"},{"menuID":"265","soup":"For Sure...","soupCost":"2.00","entree":"Butter Chicken ","entreeCost":"2.00","starch1":"Basmati Rice","starch1Cost":"1.00","starch2":"fresh steamed vegetables","starch2Cost":"1.00","dessert":"Black Forest Cake","dessertCost":"2.50","menuDate":"2018-03-15"}]';
-//   DataRetriever menuData;
-//   WeekMenu displayMenu;
-//   @override
-//   ///Stores the cached json into a variable on when initialized
-//   void initState() {
-//     super.initState();
-//     menuData = new DataRetriever(widget.websiteUrl, widget.cacheLocation);
-//     // widget.menuData.readJson().then((String value) {
-//     //   setState(() {
-//     //     jsonCached = value;
-//     //   });
-//     // });
-//   }
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // This method is rerun every time setState is called.
-//     //
-//     // The Flutter framework has been optimized to make rerunning build methods
-//     // fast, so that you can just rebuild anything that needs updating rather
-//     // than having to individually change instances of widgets.
-
-//     return Container(
-//       child: FutureBuilder<http.Response>(
-//         future: menuData.readData(),
-//         builder: (context,snapshot){
-//           if(snapshot.hasError){
-//             print("Error: ${snapshot.error}");
-//             throw snapshot.error;
-            
-//           }
-//           if(snapshot.hasData){
-//             jsonRetrieved = snapshot.data.body ?? "[]";
-//             displayMenu = WeekMenu.directFromJson(jsonRetrieved);
-//             var _displayData = displayData(displayMenu);
-//             if(snapshot.data.statusCode != 200){
-//               if(_displayData.length == 0){
-//                 _displayData.insert(0,Text(
-//                   "Error: ${snapshot.data.statusCode}.",
-//                   style: appTextTheme(context).body1.apply(color: ColorCoding.errorColor),
-//                 ));
-//               } else {
-//                 _displayData.insert(0,Text(
-//                   "Warning: ${snapshot.data.statusCode}.",
-//                   style: appTextTheme(context).body1.apply(color: ColorCoding.warningColor),
-//                 ));
-//               }
-//             }
-//             return Column(
-//               //crossAxisAlignment: CrossAxisAlignment.start,
-//               children:
-//                 _displayData.length != 0 ?
-//                 _displayData :
-//                 <Widget>[
-//                   Text(
-//                     getString('lunch/no_entry'),
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 ]
-//             );
-//           }
-//           return Column(
-//             children: <Widget>[
-//               CircularProgressIndicator(),
-//               Text(getString('misc/loading')),
-//             ],
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//           );
-//         },
-//       )
-//     );
-//   }
-// }

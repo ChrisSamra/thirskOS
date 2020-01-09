@@ -137,7 +137,6 @@ class DataRetriever {
   /// Read the data from [websiteUrl] directly.
   Future<http.Response> readWebData() async {
     try {
-      await Future.delayed(Duration(seconds: 5));
       return await http.get(websiteUrl);
     } catch(e) {
       return http.Response("",900);

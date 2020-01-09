@@ -13,7 +13,7 @@ import 'package:thirsk_outer_space/pages/settings_page.dart';
 // constants that hold all the resource links within thirskOS primarily on the thrive page, this is modular in the sense that it's easy to swap out links
 // and add new ones when needed with little programing knowledge
 
-// ///Don't steal my api key
+// ///Don't steal my api key. Not like it works, anyway.
 //const String APP_API_KEY = "AIzaSyCE5gLyCtDW6dzAkPBowBdeXqAy5iw7ebY";
 
 void main() {
