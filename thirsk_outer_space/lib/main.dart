@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //maintains vertical orientation
     getAppInfo();
     return new MaterialApp(
-      title: "thirskOS",
+      title: "ThirskOS",
       color: Colors.grey,
 
       home: Builder(
