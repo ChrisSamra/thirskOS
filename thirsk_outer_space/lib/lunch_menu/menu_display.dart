@@ -107,7 +107,7 @@ class WeekMenu{
           if(cost != '0.00' && cost != ''){
             oneEntryDisplay.add(Text(
               // i used replace all to replace the html code for an apostrophe with one so it doesn't look weird
-              '$entryLabel: ${entryName.replaceAll('#039;', '\'')}(CAD\$$cost)',//sprintf('%s: %s(CAD\$%s)',[entryLabel,entryName.replaceAll('#039;', '\''),cost]),
+              '$entryLabel: ${entryName.replaceAll('&#039;', '\'')}(CAD\$$cost)',//sprintf('%s: %s(CAD\$%s)',[entryLabel,entryName.replaceAll('#039;', '\''),cost]),
               //style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
               textAlign: TextAlign.center,
             ),
@@ -115,7 +115,7 @@ class WeekMenu{
           } else {
             oneEntryDisplay.add(Text(
               // i used replace all to replace the html code for an apostrophe with one so it doesn't look weird
-              '$entryLabel: ${entryName.replaceAll('#039;', '\'')}',
+              '$entryLabel: ${entryName.replaceAll('&#039;', '\'')}',
               //style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.white),
               textAlign: TextAlign.center,
             ),
