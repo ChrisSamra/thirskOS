@@ -218,7 +218,7 @@ class OneEventPostDetail extends StatelessWidget{
 ///The Event page which contains all the events
 class AllEventPosts extends WebInfoDisplayer{
   @override
-  Widget buildCoreWidget(String data) {
+  Widget buildCoreWidget(String data, WebInfoDisplayerState state) {
     AllEventData jsonData = AllEventData.directFromJson(data);
     List<Widget> convertedData = [];
     for(var oneData in jsonData.posts){

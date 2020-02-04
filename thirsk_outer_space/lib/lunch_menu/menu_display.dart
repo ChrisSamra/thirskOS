@@ -147,6 +147,9 @@ class WeekMenu{
         ),
       ));
     }
+    if(entryList.length == 0){
+      entryList.add(Text(getString('lunch/no_entry')));
+    }
     return entryList;
   }
 
@@ -156,10 +159,36 @@ class MenuDisplay extends WebInfoDisplayer {
   MenuDisplay({Key key, @required String websiteUrl, @required String cacheLocation}) : super(key: key, websiteUrl: websiteUrl, cacheLocation: cacheLocation);
 
   @override
-  Widget buildCoreWidget(String data) {
+  Widget buildCoreWidget(String data, WebInfoDisplayerState state) {
     WeekMenu menu = WeekMenu.directFromJson(data);
     return Column(
-      children: menu.displayData(),
+      children: menu.displayData()..insert(0, Stack(
+        children: <Widget>[
+          Center(
+            child: new Text(
+              getString('lunch/menu_prompt'),
+              style: new TextStyle(
+                  fontSize: 22,
+                  fontFamily: 'LEMONMILKLIGHT',
+                  letterSpacing: 4
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Align(
+            child: MaterialButton(
+              child:Container(
+                child: Row(children: <Widget>[Icon(Icons.refresh),Text(getString('misc/refresh'))],),
+                decoration: BoxDecoration(shape: BoxShape.rectangle, color: Colors.yellow[600]),
+                padding: EdgeInsets.all(2.0),
+                //width: 100,
+              ),
+              onPressed: () => state.refresh(),
+            ),
+            alignment: Alignment(1,1),
+          ),
+        ],
+      )),
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
   }

@@ -102,10 +102,16 @@ DisplayString stringAsset = DisplayString(stringMap:
 
   'misc/back':'Back',
   'misc/loading':'Loading...',
+  'misc/refresh':'Refresh',
   'misc/test':'test string',
   'misc/under_construction':'This page is not final and will be updated next year!',
   
-  'settings/button':'SETTINGS',
+  'settings/about':'About',
+  'settings/button':'APP',
+  'settings/changelog':'Changelog',
+  'settings/credit':'Credit',
+  'settings/feedback':'Feedback',
+  'settings/preference':'Preference',
   
   'thrive/button':'THRIVE',
   'thrive/thrive_prompt':'START THRIVING @ Thirsk!',

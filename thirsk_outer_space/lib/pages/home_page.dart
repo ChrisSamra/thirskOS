@@ -40,16 +40,6 @@ class HomePage extends StatelessWidget{
           height: 10.0,
         ),
 
-        new Text(
-          getString('lunch/menu_prompt'),
-          style: new TextStyle(
-              fontSize: 22,
-              fontFamily: 'LEMONMILKLIGHT',
-              letterSpacing: 4
-          ),
-          textAlign: TextAlign.center,
-        ),
-
         MenuDisplay(websiteUrl: "http://rths.ca/rthsJSONmenu.php",cacheLocation: "lunch_menu.txt",), //grabs cached lunch menu (ask Roger)
 
       ],

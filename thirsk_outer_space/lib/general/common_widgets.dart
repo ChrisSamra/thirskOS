@@ -130,13 +130,13 @@ abstract class WebInfoDisplayer extends StatefulWidget{
   /// The function that builds a widget based on [data].
   /// 
   /// [data] is guarenteed to be non-null and non-empty, unless something is wrong with the code.
-  Widget buildCoreWidget(String data);
+  Widget buildCoreWidget(String data, WebInfoDisplayerState state);
   WebInfoDisplayer({Key key, @required this.websiteUrl, @required this.cacheLocation}) : super(key:key);
   @override
-  State<StatefulWidget> createState() => _WebInfoDisplayerState();
+  State<StatefulWidget> createState() => WebInfoDisplayerState();
 }
 /// The state of all subclass of [WebInfoDisplayer]
-class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebInfoDisplayer>{
+class WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebInfoDisplayer>{
   /// A [DataRetriever] to retrieve data from the internet or the cache for this class.
   DataRetriever dataRetriever;
   @override
@@ -144,6 +144,12 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
     super.initState();
     dataRetriever = DataRetriever(widget.websiteUrl,widget.cacheLocation);
     dataRetriever.readCacheData();
+  }
+
+  void refresh(){
+    setState(() {
+      
+    });
   }
 
   @override
@@ -158,7 +164,7 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
           //var data = snapshot.hasData ? snapshot.data.body : dataRetriever.cachedData;
           return Column(
             children: <Widget>[
-              RawMaterialButton(child: Icon(Icons.refresh),onPressed: ()=>setState((){}),),
+              //RawMaterialButton(child: Icon(Icons.refresh),onPressed: ()=>setState((){}),),
               snapshot.hasData ?
               (
                 snapshot.data.statusCode == 200 ? 
@@ -170,7 +176,7 @@ class _WebInfoDisplayerState/*<T extends WebInfoDisplayer>*/ extends State<WebIn
               LoadingIndicator(),
               FutureBuilder<String>(
                 future: dataRetriever.readCacheData(),
-                builder: (context,snapshot) => (snapshot.data == null || snapshot.data == "") ? Container() : widget.buildCoreWidget(snapshot.data),
+                builder: (context,snapshot) => (snapshot.data == null || snapshot.data == "") ? Container() : widget.buildCoreWidget(snapshot.data,this),
               ),
             ]..removeWhere((widget) => widget == null),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
