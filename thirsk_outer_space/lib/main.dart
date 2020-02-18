@@ -151,30 +151,30 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: TextTheme(
           // The default text style. Used throughout the application
-          body1: TextStyle(
+          bodyText2: TextStyle(
             fontSize: 14,
             fontFamily: 'ROCK'
           ),
-          headline: TextStyle(
+          headline5: TextStyle(
             fontSize: 36,
             fontFamily: 'ROCK',
           ),
-          title: TextStyle(
+          headline6: TextStyle(
             fontSize: 30,
             fontFamily: 'ROCK',
           ),
-          subhead: TextStyle(
+          subtitle1: TextStyle(
             fontSize: 24,
             fontFamily: 'ROCK',
           ),
           // Used in the front pages, under "ThirskOS" logo.
-          subtitle: TextStyle(
+          subtitle2: TextStyle(
             fontSize: 16,
             letterSpacing: 4,
             fontFamily: 'LEMONMILKLIGHT'
           ),
           // Used in the numerous "Under Contruction" text in subpages. Also in other smaller texts.
-          body2: TextStyle(
+          bodyText1: TextStyle(
             fontSize: 12,
             fontFamily: 'ROCK',
           ),

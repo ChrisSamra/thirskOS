@@ -817,7 +817,7 @@ class _DateDisplayState extends State<DateDisplay>{
       children: <Widget>[
         Text(
           new DateFormat("| EEEE | MMM d | yyyy |").format(currentDate,),
-          style: appTextTheme(context).subtitle,
+          style: appTextTheme(context).subtitle2,
           textAlign: TextAlign.center,
         ),
         //TODO: Make the button cooler

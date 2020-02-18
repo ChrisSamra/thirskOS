@@ -131,7 +131,7 @@ class OneEventPost extends StatelessWidget{
                 //takes post content searches for links and makes them clickable
                 //onOpen: (link) async => launchURL(link.url),
                 truncateString(postData.postContent.replaceAll('#039;', '\'')), //replaces html code for ' with ' character
-                style: appTextTheme(context).body2,
+                style: appTextTheme(context).bodyText1,
                 //linkStyle: TextStyle(color: Colors.black),
               ),
 
@@ -139,10 +139,10 @@ class OneEventPost extends StatelessWidget{
               Row(
                 children: <Widget>[
                   Text(""),
-                  //Text(postData.name, style: appTextTheme(context).body2,), //not working properly (spits out "Array") (probably a backend issue
+                  //Text(postData.name, style: appTextTheme(context).bodyText1,), //not working properly (spits out "Array") (probably a backend issue
                   Text(
                     postData.deltaTimeDisplay,
-                    style: appTextTheme(context).body2,
+                    style: appTextTheme(context).bodyText1,
                   ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -194,7 +194,7 @@ class ErrorText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: appTextTheme(context).body1.apply(color: color ?? ColorCoding.errorColor),
+      style: appTextTheme(context).bodyText2.apply(color: color ?? ColorCoding.errorColor),
     );
   }
 }

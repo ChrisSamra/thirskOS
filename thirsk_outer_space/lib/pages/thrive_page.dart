@@ -54,7 +54,7 @@ class ThrivePage extends StatelessWidget{  //Thrive Page
 
       new Text(
         getString('thrive/thrive_prompt'),
-        style: appTextTheme(context).subtitle,
+        style: appTextTheme(context).subtitle2,
         textAlign: TextAlign.center,
       ),
 
@@ -154,7 +154,7 @@ class DiplomaPage extends StatelessWidget{   //Built in page for Exam Resources
           new Text(
             getString('misc/under_construction'),
             textAlign: TextAlign.center,
-            style: appTextTheme(context).body2,
+            style: appTextTheme(context).bodyText1,
           ),
 
         ],
@@ -228,7 +228,7 @@ class CtsPage extends StatelessWidget{
           new Text(
             getString('misc/under_construction'),
             textAlign: TextAlign.center,
-            style: appTextTheme(context).body2,
+            style: appTextTheme(context).bodyText1,
           ),
 
         ],
@@ -289,7 +289,7 @@ class SportsPage extends StatelessWidget{
           Text(
             getString('misc/under_construction'),
             textAlign: TextAlign.center,
-            style: appTextTheme(context).body2,
+            style: appTextTheme(context).bodyText1,
           ),
         ],
       ),
