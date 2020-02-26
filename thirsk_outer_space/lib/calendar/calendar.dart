@@ -17,15 +17,15 @@ enum SchoolDayType{
   ///No school for both students and staffs
   noSchool,
 }
-///The type of duration used in [EventDuration]
-enum DurationType{
-  ///A continuous duration of time. [EventDuration.argument1] specify the start time while [EventDuration.argument2] specify the end time, inclusively.
-  fromTo,
-  ///A single day. [EventDuration.argument1] specify the day of the event.
-  singleDay,
-  ///Weekly event. [EventDuration.argument1] provides a List<bool> of size 7, with the i-th specify whether the event apply to this weekday, starting from Monday.
-  weekly
-}
+// ///The type of duration used in [EventDuration]
+// enum DurationType{
+//   ///A continuous duration of time. [EventDuration.argument1] specify the start time while [EventDuration.argument2] specify the end time, inclusively.
+//   fromTo,
+//   ///A single day. [EventDuration.argument1] specify the day of the event.
+//   singleDay,
+//   ///Weekly event. [EventDuration.argument1] provides a List<bool> of size 7, with the i-th specify whether the event apply to this weekday, starting from Monday.
+//   weekly
+// }
 ///The name for each day of the week, starting from monday as 1 and sunday as 7
 List<String> weekName = ["","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
@@ -33,99 +33,147 @@ List<String> weekName = ["","Monday","Tuesday","Wednesday","Thursday","Friday","
 ///
 /// Example:
 /// ```
-/// EventDuration(DurationType.fromTo, DateTime(2019,1,1), DateTime(2019,1,15)); // From Jan 1 to Jan 15, 2019.
-/// EventDuration(DurationType.singleDay, DateTime(2019,3,15)); // On March 15, 2019.
+/// FromToDuration( DateTime(2019,1,1), DateTime(2019,1,15)); // From Jan 1 to Jan 15, 2019.
+/// SingleDayDuration( DateTime(2019,3,15)); // On March 15, 2019.
 /// EventDuration(DurationType.weekly, [false,true,false,false,false,false,false]); // Every Tuesday
 /// ```
-class EventDuration{
-  final DurationType type;
-  final dynamic argument1;
-  final dynamic argument2;
-
-  ///Initialization of this class requires validation. Depending on the type, a different amount of arguments are required.
-  EventDuration(this. type, [this.argument1, this.argument2]){
-    switch(type){
-      case DurationType.fromTo:
-        if(!(argument1 is DateTime && argument2 is DateTime && (argument1).isBefore(argument2)))
-          throw ArgumentError("Type=fromTo: argument1 and argument2 must both be DateTime, and argument1 must be before argument2");
-        break;
-      case DurationType.singleDay:
-        if(!(argument1 is DateTime))
-          throw ArgumentError("Type=singleDay: argument1 must be DateTime");
-        break;
-      case DurationType.weekly:
-        if(!(argument1 is List<bool>))
-          throw ArgumentError("Type=weekly: argument1 must be List<bool>");
-        break;
-      default:
-        throw ArgumentError("Invalid type");
-    }
-  }
+abstract class EventDuration{
 
   /// Check if [currentDate] is under this duration.
-  bool isUnderDuration(DateTime currentDate){
-    currentDate = new DateTime(currentDate.year,currentDate.month,currentDate.day);
-    switch(type){
-      case DurationType.fromTo:
-        return !((argument1 as DateTime).isAfter(currentDate) || (argument2 as DateTime).isBefore(currentDate));
-      case DurationType.singleDay:
-        return (argument1 as DateTime).isAtSameMomentAs(currentDate);
-      case DurationType.weekly:
-        return (argument1 as List<bool>)[currentDate.weekday - 1];
-      default:
-        break;
-    }
-    return false;
-  }
+  bool isUnderDuration(DateTime currentDate);
+  // {
+  //   currentDate = new DateTime(currentDate.year,currentDate.month,currentDate.day);
+  //   switch(type){
+  //     case DurationType.fromTo:
+  //       return !((argument1 as DateTime).isAfter(currentDate) || (argument2 as DateTime).isBefore(currentDate));
+  //     case DurationType.singleDay:
+  //       return (argument1 as DateTime).isAtSameMomentAs(currentDate);
+  //     case DurationType.weekly:
+  //       return (argument1 as List<bool>)[currentDate.weekday - 1];
+  //     default:
+  //       break;
+  //   }
+  //   return false;
+  // }
 
   /// Get a list of Dates that falls under the duration.
   ///
   /// For weekly events, the list is from [startTime] to [endTime], since there's infinite amount of dates that happens weekly.
   /// Throws Error if [type] is weekly and either [startTime] and [endTime] is not specified.
-  List<DateTime> getListOfDates([DateTime startTime, DateTime endTime]){
-    switch(type){
-      case DurationType.singleDay:
-        return [argument1 as DateTime];
-      case DurationType.fromTo:
-        List<DateTime> dates = new List();
-        for(var i = argument1 as DateTime; !(argument2 as DateTime).isBefore(i); i = i.add(Duration(days: 1))){
-          dates.add(i);
-          //print(i);
-        }
-        return dates;
-      case DurationType.weekly:
-        if(startTime == null || endTime == null || startTime.isAfter(endTime))
-          throw ArgumentError("Type=weekly: startTime and endTime must be specified");
-        //TODO: add logic to the return value when type=weekly
-        continue defaultCase;
-      defaultCase:
-      default:
-        break;
-    }
-    return [];
+  List<DateTime> getListOfDates([DateTime startTime, DateTime endTime]);
+  // {
+  //   switch(type){
+  //     case DurationType.singleDay:
+  //       return [argument1 as DateTime];
+  //     case DurationType.fromTo:
+  //       List<DateTime> dates = new List();
+  //       for(var i = argument1 as DateTime; !(argument2 as DateTime).isBefore(i); i = i.add(Duration(days: 1))){
+  //         dates.add(i);
+  //         //print(i);
+  //       }
+  //       return dates;
+  //     case DurationType.weekly:
+  //       if(startTime == null || endTime == null || startTime.isAfter(endTime))
+  //         throw ArgumentError("Type=weekly: startTime and endTime must be specified");
+  //       //TODO: add logic to the return value when type=weekly
+  //       continue defaultCase;
+  //     defaultCase:
+  //     default:
+  //       break;
+  //   }
+  //   return [];
+  // }
+  // @override
+  // String toString() {
+  //   switch(type){
+  //     case DurationType.singleDay:
+  //       return "On " + argument1.toString();
+  //     case DurationType.fromTo:
+  //       return "From " + argument1.toString() + " To " + argument2.toString();
+  //     case DurationType.weekly:
+  //       String returnString = "";
+  //       List tempList = (argument1 as List<bool>);
+  //       for(var i = 0; i < tempList.length; i++){
+  //         if(tempList[i]){
+  //           if(returnString != ""){
+  //             returnString += ",";
+  //           }
+  //           returnString += weekName[i + 1];
+  //         }
+  //       }
+  //       return returnString == "" ? "Weekly(Unidentified)" : "Every " + returnString;
+  //     default:
+  //       return "Warning: Unidentified Duration Type";
+  //   }
+  // }
+}
+class SingleDayDuration extends EventDuration{
+  DateTime date;
+  SingleDayDuration(this.date);
+  @override
+  bool isUnderDuration(DateTime currentDate){
+    currentDate = new DateTime(currentDate.year,currentDate.month,currentDate.day);
+    return date.isAtSameMomentAs(currentDate);
+  }
+  @override
+  List<DateTime> getListOfDates([DateTime startTime,DateTime endTime]){
+    return [date];
   }
   @override
   String toString() {
-    switch(type){
-      case DurationType.singleDay:
-        return "On " + argument1.toString();
-      case DurationType.fromTo:
-        return "From " + argument1.toString() + " To " + argument2.toString();
-      case DurationType.weekly:
-        String returnString = "";
-        List tempList = (argument1 as List<bool>);
-        for(var i = 0; i < tempList.length; i++){
-          if(tempList[i]){
-            if(returnString != ""){
-              returnString += ",";
-            }
-            returnString += weekName[i + 1];
-          }
-        }
-        return returnString == "" ? "Weekly(Unidentified)" : "Every " + returnString;
-      default:
-        return "Warning: Unidentified Duration Type";
+    return "On " + date.toString();
+  }
+}
+class FromToDuration extends EventDuration{
+  DateTime startDate;
+  DateTime endDate;
+  FromToDuration(this.startDate,this.endDate);
+  @override
+  List<DateTime> getListOfDates([DateTime startTime, DateTime endTime]) {
+    List<DateTime> dates = new List();
+    for(var i = startDate; !endDate.isBefore(i); i = i.add(Duration(days: 1))){
+      dates.add(i);
+      //print(i);
     }
+    return dates;
+  }
+
+  @override
+  bool isUnderDuration(DateTime currentDate) {
+    currentDate = new DateTime(currentDate.year,currentDate.month,currentDate.day);
+    return !(startDate.isAfter(currentDate) || endDate.isBefore(currentDate));
+  }
+  @override
+  String toString() {
+    return "From " + startDate.toString() + " To " + endDate.toString();
+  }
+}
+class WeeklyDuration extends EventDuration{
+  List<bool> selectedWeekdays;
+  WeeklyDuration(this.selectedWeekdays);
+  @override
+  bool isUnderDuration(DateTime currentDate){
+    currentDate = new DateTime(currentDate.year,currentDate.month,currentDate.day);
+    return selectedWeekdays[currentDate.weekday - 1];
+  }
+
+  @override
+  List<DateTime> getListOfDates([DateTime startTime, DateTime endTime]) {
+    // TODO: implement getListOfDates
+    throw UnimplementedError();
+  }
+  @override
+  String toString() {
+    String returnString = "";
+    for(var i = 0; i < selectedWeekdays.length; i++){
+      if(selectedWeekdays[i]){
+        if(returnString != ""){
+          returnString += ",";
+        }
+        returnString += weekName[i + 1];
+      }
+    }
+    return returnString == "" ? "Weekly(Unidentified)" : "Every " + returnString;
   }
 }
 /// An entry of a [SchoolDaySchedule], such as focus period or Period 1.
@@ -589,55 +637,55 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/labour_day'),
           greeting: getString('calendar/holiday/labour_day/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,9,2)),
+          duration: SingleDayDuration(DateTime(2019,9,2)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,9,3)),
+          duration: SingleDayDuration(DateTime(2020,9,3)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,9,20)),
+          duration: SingleDayDuration(DateTime(2019,9,20)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,10,11)),
+          duration: SingleDayDuration(DateTime(2019,10,11)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/thanksgiving'),
           greeting: getString('calendar/holiday/thanksgiving/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2019,10,12),DateTime(2019,10,14)),
+          duration: FromToDuration(DateTime(2019,10,12),DateTime(2019,10,14)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,11,1)),
+          duration: SingleDayDuration(DateTime(2019,11,1)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/rememberance'),
           greeting: getString('calendar/holiday/rememberance/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2019,11,9),DateTime(2019,11,11)),
+          duration: FromToDuration(DateTime(2019,11,9),DateTime(2019,11,11)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,11,22)),
+          duration: SingleDayDuration(DateTime(2019,11,22)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/last_day'),
           greeting: getString('calendar/last_day/christmas_greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,12,19)),
+          duration: SingleDayDuration(DateTime(2019,12,19)),
           // The last day of school has a pep rally in the end. the schedule overrides the normal schedule
           overrideSchedule: SchoolDaySchedules.pepRallySchedule,
           // There is also connect instead of focus
@@ -647,122 +695,122 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2019,12,20)),
+          duration: SingleDayDuration(DateTime(2019,12,20)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/break/christmas'),
           greeting: getString('calendar/break/christmas/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2019,12,21),DateTime(2020,1,5)),
+          duration: FromToDuration(DateTime(2019,12,21),DateTime(2020,1,5)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,1,6)),
+          duration: SingleDayDuration(DateTime(2020,1,6)),
       ),
       SchoolDayInformation(
         schoolDayType: SchoolDayType.nonInstructional,
         title: getString('calendar/break/exam_break'),
         greeting: getString('calendar/break/exam_break/greeting'),
-        duration: EventDuration(DurationType.fromTo,DateTime(2020,1,13),DateTime(2020,1,30)),
+        duration: FromToDuration(DateTime(2020,1,13),DateTime(2020,1,30)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,1,31)),
+          duration: SingleDayDuration(DateTime(2020,1,31)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,2,3)),
+          duration: SingleDayDuration(DateTime(2020,2,3)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/teachers_convention'),
           greeting: getString('calendar/holiday/teachers_convention/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,2,13),DateTime(2020,2,14)),
+          duration: FromToDuration(DateTime(2020,2,13),DateTime(2020,2,14)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/family_day'),
           greeting: getString('calendar/holiday/family_day/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,2,15),DateTime(2020,2,17)),
+          duration: FromToDuration(DateTime(2020,2,15),DateTime(2020,2,17)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/last_day'),
           greeting: getString('calendar/last_day/spring_greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,19)),
+          duration: SingleDayDuration(DateTime(2020,3,19)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,20)),
+          duration: SingleDayDuration(DateTime(2020,3,20)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/break/spring_break'),
           greeting: getString('calendar/break/spring_break/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,3,21),DateTime(2020,3,29)),
+          duration: FromToDuration(DateTime(2020,3,21),DateTime(2020,3,29)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/resume_class'),
           greeting: getString('calendar/resume_class/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,3,30)),
+          duration: SingleDayDuration(DateTime(2020,3,30)),
       ),
 //      SchoolDayInformation(
 //          schoolDayType: SchoolDayType.schoolDay,
 //          title: getString('calendar/wtf_weekend'),
 //          greeting: getString('calendar/wtf_weekend/greeting'),
-//          duration: EventDuration(DurationType.singleDay,DateTime(2020,4,4))
+//          duration: SingleDayDuration(DateTime(2020,4,4))
 //      ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/good_friday'),
           greeting: getString('calendar/holiday/good_friday/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,4,10),DateTime(2020,4,12)),
+          duration: FromToDuration(DateTime(2020,4,10),DateTime(2020,4,12)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,4,13)),
+          duration: SingleDayDuration(DateTime(2020,4,13)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,5,15)),
+          duration: SingleDayDuration(DateTime(2020,5,15)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/holiday/victoria_day'),
           greeting: getString('calendar/holiday/victoria_day/greeting'),
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,5,16),DateTime(2020,5,18)),
+          duration: FromToDuration(DateTime(2020,5,16),DateTime(2020,5,18)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.schoolDay,
           title: getString('calendar/last_day'),
           greeting: getString('calendar/last_day/summer_greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,6,29)),
+          duration: SingleDayDuration(DateTime(2020,6,29)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.nonInstructional,
           title: getString('calendar/noninstructional'),
           greeting: getString('calendar/noninstructional/greeting'),
-          duration: EventDuration(DurationType.singleDay,DateTime(2020,6,30)),
+          duration: SingleDayDuration(DateTime(2020,6,30)),
       ),
       SchoolDayInformation(
           schoolDayType: SchoolDayType.noSchool,
           title: getString('calendar/break/summer_break'),
           greeting: getString('calendar/break/summer_break/greeting'),
           //TODO:Update the end date for summer break as soon as next year's calendar is released.
-          duration: EventDuration(DurationType.fromTo,DateTime(2020,7,1),DateTime(2020,8,31)),
+          duration: FromToDuration(DateTime(2020,7,1),DateTime(2020,8,31)),
       ),
 
       /*
@@ -772,14 +820,14 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
         schoolDayType: SchoolDayType.noSchool,
         title: "Weekend",
         greeting: "Enjoy the weekend!",
-        duration: EventDuration(DurationType.weekly,[false,false,false,false,false,true,true]),
+        duration: WeeklyDuration([false,false,false,false,false,true,true]),
         ignoreInCalendar: true,
       ),
       // Friday schedules
       SchoolDayInformation(
         schoolDayType: SchoolDayType.schoolDay,
         title: "Friday!",
-        duration: EventDuration(DurationType.weekly,[false,false,false,false,true,false,false]),
+        duration: WeeklyDuration([false,false,false,false,true,false,false]),
         ignoreInCalendar: true,
         overrideSchedule: SchoolDaySchedules.fridaySchedule,
         tags: Set.from([SchoolDayInformation.replaceFocusWithConnect]),
@@ -788,7 +836,7 @@ SchoolCalendar schoolCalendar = new SchoolCalendar(
       SchoolDayInformation(
         schoolDayType: SchoolDayType.schoolDay,
         title: "Regular Class",
-        duration: EventDuration(DurationType.weekly,[true,true,true,true,false,false,false]),
+        duration: WeeklyDuration([true,true,true,true,false,false,false]),
         ignoreInCalendar: true,
         overrideSchedule: SchoolDaySchedules.defaultSchedule,
       ),

@@ -5,6 +5,7 @@ import 'package:thirsk_outer_space/strings/string_getter.dart';
 import 'package:thirsk_outer_space/general/version_number.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+/// URL linking to the feedback page where the user can give feedback.
 const feedbackUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfOEk0NghFI3tz1RQCE41hZJkZDCeZ5dWhSDshjYgS6ZAOIEg/viewform?usp=sf_link';
 
 class SettingsPage extends StatelessWidget{
